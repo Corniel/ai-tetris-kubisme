@@ -2,13 +2,12 @@
 {
     public enum ShapeType
 	{
-		None = 0,
-		I = 1,
-		J = 2,
-		L = 3,
-		O = 4,
-		S = 5,
-		T = 6,
-		Z = 7,
+		I = 0,
+		J = 1,
+		L = 2,
+		O = 3,
+		S = 4,
+		T = 5,
+		Z = 6,
 	}
 }

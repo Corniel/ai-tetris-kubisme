@@ -2,7 +2,8 @@
 
 namespace Tetris
 {
-    public interface Rows : IEnumerable<Row>
+    /// <summary>Represents a collection of <see cref="Row"/>s.</summary>
+    public interface Rows /*: IEnumerable<Row>*/
     {
         /// <summary>Gets the row of the specified row index.</summary>
         Row this[int row] { get; }

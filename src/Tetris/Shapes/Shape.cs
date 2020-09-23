@@ -7,6 +7,17 @@ namespace Tetris
 {
     public sealed partial class Shape : Rows
     {
+        public static IReadOnlyCollection<Shape> All  => new Shape[]
+        {
+            I, I_R, I_U, I_L,
+            J, J_R, J_U, J_L,
+            L, L_R, L_U, L_L,
+            O,
+            S, S_R, S_U, S_L,
+            T, T_R, T_U, T_L,
+            Z, I_R, Z_U, Z_L,
+        };
+
         private readonly Row[] rows;
 
         private Shape(
@@ -14,17 +25,13 @@ namespace Tetris
             Rotation rotation,
             int height,
             int width,
-            int left,
-            int top,
-            Row[] rs)
+            Row[] rows)
         {
             Type = type;
             Rotation = rotation;
             Height = height;
             Width = width;
-            Left = left;
-            Top = top;
-            rows = rs;
+            this.rows = rows;
         }
 
         public Row this[int row] => rows[row];
@@ -35,76 +42,34 @@ namespace Tetris
         public ShapeType Type { get; }
         public Rotation Rotation { get; }
 
+        /// <summary>Gets the height of the shape.</summary>
         public int Height { get; }
+
+        /// <summary>Gets the width of the shape.</summary>
         public int Width { get; }
-
-        public int Left { get; }
-        public int Top { get; }
-
-
 
         /// <inheritdoc />
         public override string ToString()
         => string.Join(
             '|',
-            rows.Reverse().Select(row => row.ToString().Substring(10 - Left - Width)));
+            rows.Reverse().Select(row => row.ToString().Substring(10 - Width)));
+
+        internal Row[] ToArray() => rows;
 
         private static Shape New(
             ShapeType type,
             Rotation rotation,
-            params ushort[] rs)
+            params ushort[] lines)
         {
-            var rows = rs.Select(r => new Row(r)).Where(r => r.NotEmpty()).Reverse().ToArray();
-            var merged = rs[0];
+            var rows = lines.Select(row => new Row(row)).Reverse().ToArray();
+            var merged = rows[0];
             var height = rows.Length;
-            var top = rs.TakeWhile(r => r == 0).Count();
 
-            foreach (var r in rs) { merged |= r; }
+            foreach (var r in rows) { merged |= r; }
 
-            var left = 0;
-            var width = 0;
+            var width = merged.Count;
 
-            switch (merged)
-            {
-                case 2:
-                    left = 1;
-                    width = 1;
-                    break;
-
-                case 3:
-                    left = 0;
-                    width = 2;
-                    break;
-
-                case 4:
-                    left = 2;
-                    width = 1;
-                    break;
-
-                case 6:
-                    left = 1;
-                    width = 2;
-                    break;
-
-                case 7:
-                    left = 0;
-                    width = 3;
-                    break;
-
-                case 15:
-                    left = 0;
-                    width = 4;
-                    break;
-
-                default: throw new NotSupportedException($"Type: {type}, Rotation: {rotation}, Merged: {merged}.");
-            }
-            return new Shape(type, rotation, height, width, left, top, rows);
+            return new Shape(type, rotation, height, width, rows);
         }
-
-        /// <inheritdoc />
-        public IEnumerator<Row> GetEnumerator() => ((IEnumerable<Row>)rows).GetEnumerator();
-
-        /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

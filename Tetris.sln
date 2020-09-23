@@ -16,6 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testris.Specs", "test\Testris.Specs\Testris.Specs.csproj", "{9F56E3AD-4120-4B7F-847D-EDF6C8C44B0B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{38304A43-89B3-4D83-94BB-7809F3122A6C}"
+	ProjectSection(SolutionItems) = preProject
+		design\blocks.webp = design\blocks.webp
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

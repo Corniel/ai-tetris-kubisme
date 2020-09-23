@@ -38,26 +38,11 @@ namespace Shape_specs
             Assert.AreEqual(all.Distinct(new TypeAndRotationComparer()), all);
         }
 
-        [Test]
-        public void Have_unique_shapes()
-        {
-            var all = Shapes.ToArray();
-            Assert.AreEqual(all.Distinct(new ShapeComparer()), all);
-        }
-
         private class TypeAndRotationComparer : IEqualityComparer<Shape>
         {
             public bool Equals([DisallowNull] Shape x, [DisallowNull] Shape y)
                 => x.Type == y.Type
                 && x.Rotation == y.Rotation;
-            public int GetHashCode(Shape obj) => 0;
-        }
-
-        private class ShapeComparer : IEqualityComparer<Shape>
-        {
-            public bool Equals([DisallowNull] Shape x, [DisallowNull] Shape y)
-                => Enumerable.SequenceEqual(x, y);
-
             public int GetHashCode(Shape obj) => 0;
         }
     }

@@ -89,7 +89,7 @@ namespace Tetris
             for(var row = Empty.bits; row <= Full.bits; row++)
             {
                 uint bits = row;
-                bits = bits - ((bits >> 1) & 0x55555555);
+                bits -= ((bits >> 1) & 0x55555555);
                 bits = (bits & 0x33333333) + ((bits >> 2) & 0x33333333);
                 var count = (((bits + (bits >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
                 lookup[row] = (byte)count;

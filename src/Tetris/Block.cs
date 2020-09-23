@@ -1,49 +1,45 @@
-﻿using System.Collections;
+﻿using SmartAss;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace Tetris
 {
-    public sealed partial class Block : Rows
+    public partial class Block
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly Row[] rows;
 
-        private Block(Shape shape, int column, int offset)
-            : this(shape, shape.ToArray(), column, offset) { }
+        internal Block(Shape shape)
+            : this(shape.ToArray(), shape, 0, 0) => Do.Nothing();
 
-        private Block(Shape shape, Row[] rs, int column, int offset)
+        private Block(Row[] rows, Shape shape, int column, int offset)
         {
-            Shape =shape;
-            rows = rs;
+            this.rows = rows;
+            Shape = shape;
             Column = column;
             Offset = offset;
-            Height = rows.Length + offset;
-            Id = new BlockId(Shape.Type, Shape.Rotation, Column, Offset);
         }
 
-        public Row this[int row] => rows[row - Offset];
-
-        public BlockId Id { get; }
-
+        /// <summary>Gets <see cref="Tetris.Shape"/> of the block.</summary>
         public Shape Shape { get; }
 
-        public int Column { get; }
-        public int Height { get; }
-        public int Offset { get; }
+        /// <summary>Gets the column (offset).</summary>
+        internal int Column { get; }
 
-        public Block Down { get; private set; }
-        public Block Left { get; private set; }
-        public Block Right { get; private set; }
-        public Block TurnLeft { get; private set; }
-        public Block TurnRight { get; private set; }
+        /// <summary>Gets the width (including the column offset).</summary>
+        internal int Width => Column + Shape.Width;
 
         /// <inheritdoc />
-        public override string ToString() => Id.ToString();
+        public override string ToString()
+        => $"Shape: {Shape.Type}{(Shape.Rotation == default ? "" : $" ({Shape.Rotation})")}, " +
+            $"Col: {Column}, Offset: {Offset}";
 
-        /// <inheritdoc />
-        public IEnumerator<Row> GetEnumerator() => ((IEnumerable<Row>)rows).GetEnumerator();
-        
-        /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        internal Block CreateUp() => new Block(rows, Shape, Column, Offset + 1);
+
+        internal Block CreateRight() => new Block(rows.Select(r => r.Right()).ToArray(), Shape, Column + 1, Offset);
     }
 }

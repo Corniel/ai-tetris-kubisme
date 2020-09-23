@@ -55,7 +55,7 @@ namespace Tetris
 
         public int Free => Height - Filled;
 
-        /// <summary>Applies the move described by a <see cref="Block"/>.</summary>
+        /// <summary>Applies the move described by a <see cref="Mask"/>.</summary>
         public Move Move(Block block)
         {
             var source = block.Offset;
@@ -85,11 +85,5 @@ namespace Tetris
 
             return new Move(clearing, field);
         }
-
-        /// <inheritdoc />
-        public IEnumerator<Row> GetEnumerator() => rows.TakeWhile(row => row.NotEmpty()).GetEnumerator();
-
-        /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

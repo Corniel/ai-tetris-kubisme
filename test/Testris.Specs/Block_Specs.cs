@@ -17,8 +17,6 @@ namespace Block_Specs
         [TestCase(ShapeType.Z)]
         public void All_have_height_20(ShapeType type)
         {
-            var block = Block.Select(type);
-            Assert.AreEqual(20, block.Height);
         }
     }
 }
