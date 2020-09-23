@@ -1,4 +1,5 @@
 ﻿using SmartAss;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,10 +9,29 @@ namespace Tetris
 {
     public class Blocks : IEnumerable<Block>
     {
-        public Block Select(int col, int offset, ShapeType shape, Rotation rotation)
-            => items[col][offset][(int)shape][(int)rotation];
+        public Block Spawn(ShapeType shape)
+            => shape switch
+            {
+                ShapeType.J => Select(3, 17, ShapeType.J, default),
+                ShapeType.L => Select(3, 17, ShapeType.L, default),
+                ShapeType.S => Select(3, 17, ShapeType.T, default),
+                ShapeType.T => Select(3, 17, ShapeType.S, default),
+                ShapeType.Z => Select(3, 17, ShapeType.Z, default),
 
-        public static Blocks Init()
+                ShapeType.O => Select(4, 17, ShapeType.O, default),
+                ShapeType.I => Select(3, 18, ShapeType.I, default),
+                _ => throw new NotSupportedException(),
+            };
+
+        public Block Select(int col, int offset, ShapeType shape, Rotation rotation)
+           => Select(col, offset, shape, rotation, 0);
+
+        public Block Select(int col, int offset, ShapeType shape, Rotation rotation, int add)
+            => items[col][offset][(int)shape][((int)rotation + add) % 4];
+
+        public static Blocks Init() => Init(null);
+
+        public static Blocks Init(RotationSystem rotationSystem)
         {
             var blocks = new Blocks();
 
@@ -20,6 +40,13 @@ namespace Tetris
                 blocks.Init(block);
             }
 
+            rotationSystem ??= RotationSystem.Srs(blocks);
+
+            foreach (var block in blocks)
+            {
+                block.TurnLeft = rotationSystem.TurnLeft(block);
+                block.TurnRight = rotationSystem.TurnRight(block);
+            }
             return blocks;
         }
 
