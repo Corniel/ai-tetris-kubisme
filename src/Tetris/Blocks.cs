@@ -12,14 +12,14 @@ namespace Tetris
         public Block Spawn(ShapeType shape)
             => shape switch
             {
-                ShapeType.J => Select(3, 17, ShapeType.J, default),
-                ShapeType.L => Select(3, 17, ShapeType.L, default),
-                ShapeType.S => Select(3, 17, ShapeType.T, default),
-                ShapeType.T => Select(3, 17, ShapeType.S, default),
-                ShapeType.Z => Select(3, 17, ShapeType.Z, default),
+                ShapeType.J => Select(4, 17, ShapeType.J, default),
+                ShapeType.L => Select(4, 17, ShapeType.L, default),
+                ShapeType.S => Select(4, 17, ShapeType.T, default),
+                ShapeType.T => Select(4, 17, ShapeType.S, default),
+                ShapeType.Z => Select(4, 17, ShapeType.Z, default),
 
-                ShapeType.O => Select(4, 17, ShapeType.O, default),
-                ShapeType.I => Select(3, 18, ShapeType.I, default),
+                ShapeType.O => Select(5, 17, ShapeType.O, default),
+                ShapeType.I => Select(4, 18, ShapeType.I, default),
                 _ => throw new NotSupportedException(),
             };
 
@@ -27,7 +27,7 @@ namespace Tetris
            => Select(col, offset, shape, rotation, 0);
 
         public Block Select(int col, int offset, ShapeType shape, Rotation rotation, int add)
-            => items[col][offset][(int)shape][((int)rotation + add) % 4];
+            => items[col][offset][(int)shape][((int)rotation + add + 4) % 4];
 
         public static Blocks Init() => Init(null);
 

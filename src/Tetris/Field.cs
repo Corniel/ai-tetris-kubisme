@@ -1,24 +1,37 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace Tetris
 {
+    /// <summary>Represents Testis field.</summary>
     public readonly struct Field : Rows
     {
-        internal Field(Row[] rows, byte height, byte filled)
+        public static readonly Field Start = new Field(new Row[20], 20, 0);
+
+        private Field(Row[] rows, byte height, byte filled)
         {
             this.rows = rows;
             this.height = height;
             Filled = filled;
         }
 
-        private readonly byte height;
-        public readonly byte Filled;
         private readonly Row[] rows;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private readonly byte height;
+
+        /// <summary>Gets total of filled rows.</summary>
+        public readonly byte Filled;
+        
+        /// <summary>Gets the height of the field.</summary>
         public int Height => height;
+
+        /// <summary>Gets the number of free rows.</summary>
+        public int Free => Height - Filled;
+
+        /// <summary>Gets a <see cref="Row"/> based on a (zero based) row number.</summary>
         public Row this[int row] => row >= Filled ? Row.Empty : rows[row];
 
         /// <summary>Investigates if the block fit.</summary>
@@ -53,8 +66,6 @@ namespace Tetris
             return hasFloor ? Fit.True : Fit.Maybe;
         }
 
-        public int Free => Height - Filled;
-
         /// <summary>Applies the move described by a <see cref="Mask"/>.</summary>
         public Move Move(Block block)
         {
@@ -84,6 +95,36 @@ namespace Tetris
                 filled: (byte)(target + 1));
 
             return new Move(clearing, field);
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            for (var h = height - 1; h >= 0; h--)
+            {
+                if (h > Filled)
+                {
+                    sb.AppendLine(Row.Empty.ToString());
+                }
+                else
+                {
+                    sb.AppendLine(this[h].ToString());
+                }
+            }
+            return sb.ToString();
+        }
+
+        public static Field New(params ushort[] rows)
+        {
+            var h = rows.Length;
+            var rs = rows
+                .Reverse()
+                .Select(r => Row.New(r))
+                .SkipWhile(r => r.IsEmpty())
+                .ToArray();
+            return new Field(rs, (byte)h, (byte)rs.Length);
         }
     }
 }

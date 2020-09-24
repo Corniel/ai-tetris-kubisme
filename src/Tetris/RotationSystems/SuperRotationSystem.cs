@@ -21,11 +21,19 @@ namespace Tetris
             var source = Offset(block);
             var target = Offset(block, rotation);
 
-            var col = source.Column - target.Column;
-            var flr = source.Floor - target.Floor;
+            var col = target.Column - source.Column;
+            var flr = target.Floor - source.Floor;
 
             col += block.Column;
             flr += block.Offset;
+
+            //if(block.Shape.Type == ShapeType.I && 
+            //    block.Shape.Rotation == default &&
+            //    block.Column == 0 &&
+            //    block.Offset == 10)
+            //{
+
+            //}
 
             return col < 0 || col > 9 || flr < 0 || flr > 19
                 ? null
@@ -37,7 +45,7 @@ namespace Tetris
 
         private static Offset Offset(ShapeType shape, Rotation rotation, int add) => offsets
            [(int)shape]
-           [((int)rotation + add) % 4];
+           [((int)rotation + add + 4) % 4];
 
         private static readonly Offset[][] offsets = new Offset[][]
         {

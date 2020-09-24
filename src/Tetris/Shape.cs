@@ -14,7 +14,7 @@ namespace Tetris
             O,
             S, S_R, S_U, S_L,
             T, T_R, T_U, T_L,
-            Z, I_R, Z_U, Z_L,
+            Z, Z_R, Z_U, Z_L,
         };
 
         private readonly Row[] rows;
