@@ -22,31 +22,7 @@ namespace Blocks_specs
 
             var mssing = rotations.Except(roundtripL).ToArray();
 
-            var i = blocks.Spawn(ShapeType.I);
-
-            var expected = Field.New(
-                0b_00011_11000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000);
-
-            Assert.AreEqual(expected, Field.Start.Move(i).Field);
+            Assert.AreEqual(40, mssing.Length);
         }
     }
 }
