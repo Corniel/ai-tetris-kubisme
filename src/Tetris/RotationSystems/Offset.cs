@@ -4,8 +4,8 @@
     {
         public Offset(int column, int floor)
         {
-            this.Column = column;
-            this.Floor = floor;
+            Column = column;
+            Floor = floor;
         }
 
         public int Column { get; }
