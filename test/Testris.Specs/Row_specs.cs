@@ -31,22 +31,12 @@ namespace Row_specs
     public class Transform
     {
         [Test]
-        public void To_left_shift_bits_to_left()
-        {
-            var row = Row.New(0b_01000_00110);
-            var mov = Row.New(0b_10000_01100);
-
-            Assert.AreEqual(mov, row.Left());
-        }
-
-
-        [Test]
         public void To_right_shift_bits_to_right()
         {
             var row = Row.New(0b_01000_00100);
-            var mov = Row.New(0b_00010_00001);
+            var mov = Row.New(0b_00100_00010);
 
-            Assert.AreEqual(mov, row.Right(2));
+            Assert.AreEqual(mov, row.Right());
         }
     }
 

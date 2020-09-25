@@ -24,11 +24,8 @@ namespace Tetris
         /// <summary>Returns true if full.</summary>
         public bool IsFull() => bits == Full.bits;
 
-        /// <summary>Moves the row on step to the left.</summary>
-        public Row Left(int steps = 1) => new Row((ushort)(bits << steps));
-
-        /// <summary>Moves the row on step to the right.</summary>
-        public Row Right(int steps = 1) => new Row((ushort)(bits >> steps));
+        /// <summary>Moves the row one to the right.</summary>
+        public Row Right() => new Row((ushort)(bits >> 1));
 
         /// <summary>Merges two rows.</summary>
         public Row Merge(Row other) => new Row((ushort)(bits | other.bits));
