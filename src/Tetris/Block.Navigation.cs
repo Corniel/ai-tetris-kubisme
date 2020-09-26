@@ -8,6 +8,8 @@ namespace Tetris
         public Block Next(Step step)
             => step switch
             {
+                Step.None => Down,
+                Step.Drop => Down,
                 Step.Down => Down,
                 Step.Left => Left,
                 Step.Right => Right,

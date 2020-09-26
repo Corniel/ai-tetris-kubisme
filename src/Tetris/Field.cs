@@ -66,6 +66,29 @@ namespace Tetris
             return hasFloor ? Fit.True : Fit.Maybe;
         }
 
+        public Move Move(Block block, Steps steps)
+        {
+            var fit = Fit.Maybe;
+
+            foreach (var step in steps)
+            {
+                // ignore further steps.
+                if (block is null) { break; }
+
+                fit = Fits(block);
+
+                if (fit == Fit.False) { return default; }
+                else if (fit == Fit.True) { return Move(block); }
+                else { block = block.Next(step); }
+            }
+            while (fit == Fit.Maybe)
+            {
+                fit = Fits(block);
+                block = block.Down;
+            }
+            return Move(block);
+        }
+
         /// <summary>Applies the move described by a <see cref="Mask"/>.</summary>
         public Move Move(Block block)
         {
