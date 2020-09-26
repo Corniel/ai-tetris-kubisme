@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Tetris.Navigation;
 
 namespace Tetris
 {
@@ -40,13 +41,14 @@ namespace Tetris
                 blocks.Init(block);
             }
 
-            rotationSystem ??= RotationSystem.Srs(blocks);
+            blocks.InitRotations(rotationSystem);
+            blocks.ClearUnreachables();
 
-            foreach (var block in blocks)
+            foreach(var block in blocks)
             {
-                block.TurnLeft = rotationSystem.TurnLeft(block);
-                block.TurnRight = rotationSystem.TurnRight(block);
+                block.InitExplore();
             }
+
             return blocks;
         }
 
@@ -76,12 +78,43 @@ namespace Tetris
             }
         }
 
+        private void InitRotations(RotationSystem rotationSystem)
+        {
+            rotationSystem ??= RotationSystem.Srs(this);
+
+            foreach (var block in this)
+            {
+                block.TurnLeft = rotationSystem.TurnLeft(block);
+                block.TurnRight = rotationSystem.TurnRight(block);
+            }
+        }
+
+        private void ClearUnreachables()
+        {
+            var visited = Walker.Visit(this);
+
+            foreach (var block in this)
+            {
+                if (!visited.Contains(block))
+                {
+                    Clear(block);
+                }
+            }
+        }
+
         private void Set(Block block)
             => items
               [block.Column]
               [block.Offset]
               [(int)block.Shape.Type]
               [(int)block.Shape.Rotation] = block;
+
+        private void Clear(Block block)
+           => items
+             [block.Column]
+             [block.Offset]
+             [(int)block.Shape.Type]
+             [(int)block.Shape.Rotation] = null;
 
         public IEnumerator<Block> GetEnumerator() => items
             .SelectMany(m => m)
