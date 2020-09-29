@@ -141,7 +141,7 @@ namespace Tetris
         public static Field New(params ushort[] rows)
         {
             var h = rows.Length;
-            var rs = Rows.New(rows);
+            var rs = Rows.Trim(rows);
             return new Field(rs, (byte)h, (byte)rs.Length);
         }
     }

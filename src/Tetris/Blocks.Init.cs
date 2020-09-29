@@ -2,7 +2,7 @@
 {
     public partial class Blocks
     {
-        public static Blocks Init() => Init(Rows.All, null);
+        public static Blocks Init() => Init(Rows.All(), null);
 
         public static Blocks Init(Rows rows, RotationSystem rotationSystem)
         {
@@ -29,10 +29,8 @@
 
         private Block Init(Block block)
         {
-            if(block is null)
-            {
-                return null;
-            }
+            if (block is null) { return null; }
+
             var existing = Select(block.Column, block.Offset, block.Shape, block.Rotation);
             if (existing is Block)
             {

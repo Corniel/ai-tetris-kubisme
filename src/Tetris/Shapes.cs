@@ -3,115 +3,115 @@
     public static class Shapes
     {
         public static readonly Row[] I = Rows.New(
-            0b1111);
+            0b11110_00000);
 
         public static readonly Row[] I_R = Rows.New(
-            0b1,
-            0b1,
-            0b1,
-            0b1);
+            0b10000_00000,
+            0b10000_00000,
+            0b10000_00000,
+            0b10000_00000);
 
         public static readonly Row[] I_U = Rows.New(
-           0b1111);
+            0b11110_00000);
 
         public static readonly Row[] I_L = Rows.New(
-            0b1,
-            0b1,
-            0b1,
-            0b1);
+            0b10000_00000,
+            0b10000_00000,
+            0b10000_00000,
+            0b10000_00000);
 
         public static readonly Row[] J = Rows.New(
-           0b100,
-           0b111);
+            0b10000_00000,
+            0b11100_00000);
 
         public static readonly Row[] J_R = Rows.New(
-            0b11,
-            0b10,
-            0b10);
+            0b11000_00000,
+            0b10000_00000,
+            0b10000_00000);
 
         public static readonly Row[] J_U = Rows.New(
-            0b111,
-            0b001);
+            0b11100_00000,
+            0b00100_00000);
 
         public static readonly Row[] J_L = Rows.New(
-            0b01,
-            0b01,
-            0b11);
+            0b01000_00000,
+            0b01000_00000,
+            0b11000_00000);
 
         public static readonly Row[] L = Rows.New(
-            0b001,
-            0b111);
+            0b00100_00000,
+            0b11100_00000);
 
         public static readonly Row[] L_R = Rows.New(
-            0b10,
-            0b10,
-            0b11);
+            0b10000_00000,
+            0b10000_00000,
+            0b11000_00000);
 
         public static readonly Row[] L_U = Rows.New(
-            0b111,
-            0b100);
+            0b11100_00000,
+            0b10000_00000);
 
         public static readonly Row[] L_L = Rows.New(
-            0b11,
-            0b01,
-            0b01);
+            0b11000_00000,
+            0b01000_00000,
+            0b01000_00000);
 
         public static readonly Row[] O = Rows.New(
-           0b11,
-           0b11);
+            0b11000_00000,
+            0b11000_00000);
 
         public static readonly Row[] S = Rows.New(
-           0b011,
-           0b110);
+            0b01100_00000,
+            0b11000_00000);
 
         public static readonly Row[] S_R = Rows.New(
-            0b10,
-            0b11,
-            0b01);
+            0b10000_00000,
+            0b11000_00000,
+            0b01000_00000);
 
         public static readonly Row[] S_U = Rows.New(
-            0b011,
-            0b110);
+            0b01100_00000,
+            0b11000_00000);
 
         public static readonly Row[] S_L = Rows.New(
-            0b10,
-            0b11,
-            0b01);
+            0b10000_00000,
+            0b11000_00000,
+            0b01000_00000);
 
         public static readonly Row[] T = Rows.New(
-            0b010,
-            0b111);
+            0b01000_00000,
+            0b11100_00000);
 
         public static readonly Row[] T_R = Rows.New(
-            0b10,
-            0b11,
-            0b10);
+            0b10000_00000,
+            0b11000_00000,
+            0b10000_00000);
 
         public static readonly Row[] T_U = Rows.New(
-            0b111,
-            0b010);
+            0b11100_00000,
+            0b01000_00000);
 
         public static readonly Row[] T_L = Rows.New(
-            0b01,
-            0b11,
-            0b01);
+            0b01000_00000,
+            0b11000_00000,
+            0b01000_00000);
 
         public static readonly Row[] Z = Rows.New(
-            0b110,
-            0b011);
+            0b11000_00000,
+            0b01100_00000);
 
         public static readonly Row[] Z_R = Rows.New(
-            0b01,
-            0b11,
-            0b10);
+            0b01000_00000,
+            0b11000_00000,
+            0b10000_00000);
 
         public static readonly Row[] Z_U = Rows.New(
-            0b110,
-            0b011);
+            0b11000_00000,
+            0b01100_00000);
 
         public static readonly Row[] Z_L = Rows.New(
-            0b01,
-            0b11,
-            0b10);
+            0b01000_00000,
+            0b11000_00000,
+            0b10000_00000);
     }
 }

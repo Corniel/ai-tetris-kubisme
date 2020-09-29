@@ -1,20 +1,24 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Diagnostics;
 using System.Linq;
+using Testris.Specs;
 using Tetris;
 
-namespace Blocks_specs
+namespace Block_specs
 {
-    public class Init
+    public class Initialized
     {
         [Test]
-        public void Default()
+        public void Within_10ms()
         {
-            var sw = Stopwatch.StartNew();
-            var blocks = Blocks.Init();
-            sw.Stop();
+            var rows = Rows.All();
+            Speed.Runs(() => Blocks.Init(rows, null), 1, TimeSpan.FromMilliseconds(10));
+        }
 
+        [Test]
+        public void Results_in_3736_blocks()
+        {
+            var blocks = Blocks.Init();
             var all = blocks.ToArray();
 
             Assert.AreEqual(3736, all.Length);
@@ -27,9 +31,6 @@ namespace Blocks_specs
             var mssing = rotations.Except(roundtripL).Except(roundtripR).ToArray();
 
             Assert.AreEqual(0, mssing.Length);
-
-            Console.WriteLine(sw.Elapsed.TotalMilliseconds);
-            Assert.IsTrue(sw.Elapsed.TotalMilliseconds < 30, sw.Elapsed.TotalMilliseconds.ToString());
         }
     }
 }

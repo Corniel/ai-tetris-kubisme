@@ -1,7 +1,10 @@
-﻿namespace Tetris
+﻿using System.Diagnostics;
+
+namespace Tetris
 {
     public readonly struct Rotation
 	{
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly byte val;
 
         public static readonly Rotation None;
@@ -9,7 +12,7 @@
         public static readonly Rotation Uturn = new Rotation(2);
         public static readonly Rotation Left = new Rotation(3);
 
-        private Rotation(int val) => this.val = (byte)(val & 3);
+        public Rotation(int val) => this.val = (byte)(val & 3);
 
         public Rotation Rotate(int steps) => new Rotation(val + steps);
 

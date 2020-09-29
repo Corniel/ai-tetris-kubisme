@@ -1,4 +1,4 @@
-﻿using SmartAss;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,17 +6,25 @@ using System.Linq;
 namespace Tetris
 {
     /// <summary>Represents a collection of <see cref="Row"/>s.</summary>
-    public class Rows
+    public class Rows : IEnumerable<Row[]>
     {
-        public static Rows All = Init();
-
         private Rows(Row[][][][] rs) => rows = rs;
 
-        public static Row[] New(params ushort[] rows) => rows
-            .Select(r => new Row(r))
-            .Reverse()
-            .SkipWhile(r => r.IsEmpty())
-            .ToArray();
+        public static Row[] New(params ushort[] rows)
+        {
+            var copy = new Row[rows.Length];
+            for(var i = 0; i < copy.Length; i++)
+            {
+                copy[i] = new Row(rows[copy.Length - 1 - i]);
+            }
+            return copy;
+        }
+        
+        public static Row[] Trim(params ushort[] rows) => rows
+           .Select(r => new Row(r))
+           .Reverse()
+           .SkipWhile(r => r.IsEmpty())
+           .ToArray();
 
         public Block Block(Shape shape, Rotation rotation, int column, int offset)
             => offset < 0 || column < 0 || Columns(shape, rotation) <= column
@@ -29,7 +37,7 @@ namespace Tetris
         public Row[] Select(Shape shape, Rotation rotation, int column)
             => rows[(int)shape][rotation][column];
 
-        private static Rows Init()
+        public static Rows All()
         {
             var rs = new Row[7][][][];
 
@@ -44,27 +52,39 @@ namespace Tetris
                 new[]{ Shapes.Z, Shapes.Z_R, Shapes.Z_U, Shapes.Z_L },
             };
 
-            for(var shape = 0; shape< shapes.Length; shape++)
+            for(var shape = 0; shape < shapes.Length; shape++)
             {
                 var rotations = shapes[shape].Length;
                 rs[shape] = new Row[rotations][][];
 
                 for(var rotation = 0; rotation < rotations; rotation++)
                 {
-
                     var rows = shapes[shape][rotation];
                     var width = rows.Width();
-                    var variations = new List<Row[]>{ rows };
+
+                    var target = new Row[11 - width][];
+                    var length = target.Length;
                     
-                    while(width++ < 10)
+                    target[0] = rows;
+
+                    for (var i = 1; i < length; i++)
                     {
-                        variations.Add(variations.Last().Right());
+                        rows = rows.Right();
+                        target[i] = rows;
                     }
-                    rs[shape][rotation] = variations.ToArray();
+
+                    rs[shape][rotation] = target;
                 }
             }
             return new Rows(rs);
         }
+
+        public IEnumerator<Row[]> GetEnumerator() => rows
+            .SelectMany(m => m)
+            .SelectMany(n => n)
+            .GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly Row[][][][] rows;
