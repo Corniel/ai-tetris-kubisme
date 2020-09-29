@@ -12,8 +12,8 @@ namespace Tetris.Gameplay
             TimeSpan time,
             Field field,
             Blocks blocks,
-            ShapeType current,
-            ShapeType next,
+            Shape current,
+            Shape next,
             long score,
             int level,
             int moves)
@@ -32,8 +32,8 @@ namespace Tetris.Gameplay
             public TimeSpan Time { get; }
             public Field Field { get; }
             public Blocks Blocks { get; }
-            public ShapeType Current { get; }
-            public ShapeType Next { get; }
+            public Shape Current { get; }
+            public Shape Next { get; }
             public long Score { get; }
             public int Level { get; }
             public int Moves { get; }
@@ -79,6 +79,6 @@ namespace Tetris.Gameplay
                 moves: 0);
         }
 
-        private static ShapeType NextShape(IGenerator generator) => (ShapeType)generator.Next(7);
+        private static Shape NextShape(IGenerator generator) => (Shape)generator.Next(7);
     }
 }

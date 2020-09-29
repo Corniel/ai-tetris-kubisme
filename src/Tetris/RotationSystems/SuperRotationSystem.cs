@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace Tetris
+﻿namespace Tetris
 {
     internal class SuperRotationSystem : RotationSystem
     {
-        private readonly Blocks blocks;
+        private readonly Rows rows;
 
-        internal SuperRotationSystem(Blocks blocks)
+        internal SuperRotationSystem(Rows rows)
         {
-            this.blocks = blocks;
+            this.rows = rows;
         }
 
         public override Block TurnLeft(Block block) => Turn(block, -1);
@@ -16,7 +14,7 @@ namespace Tetris
 
         private Block Turn(Block block, int rotation)
         {
-            if (block.Shape.Type == ShapeType.O) return null;
+            if (block.Shape == Shape.O) return null;
 
             var source = Offset(block);
             var target = Offset(block, rotation);
@@ -27,25 +25,15 @@ namespace Tetris
             col += block.Column;
             flr += block.Offset;
 
-            //if(block.Shape.Type == ShapeType.I && 
-            //    block.Shape.Rotation == default &&
-            //    block.Column == 0 &&
-            //    block.Offset == 10)
-            //{
-
-            //}
-
-            return col < 0 || col > 9 || flr < 0 || flr > 19
-                ? null
-                : blocks.Select(col, flr, block.Shape.Type, block.Shape.Rotation, rotation);
+            return rows.Block(block.Shape, block.Rotation.Rotate(rotation), col, flr);
         }
 
         private static Offset Offset(Block block, int add = 0) 
-            => Offset(block.Shape.Type, block.Shape.Rotation, add);
+            => Offset(block.Shape, block.Rotation, add);
 
-        private static Offset Offset(ShapeType shape, Rotation rotation, int add) => offsets
+        private static Offset Offset(Shape shape, Rotation rotation, int add) => offsets
            [(int)shape]
-           [((int)rotation + add + 4) % 4];
+           [rotation.Rotate(add)];
 
         private static readonly Offset[][] offsets = new Offset[][]
         {

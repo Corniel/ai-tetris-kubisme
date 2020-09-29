@@ -1,6 +1,4 @@
-﻿using SmartAss;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 
 namespace Tetris
 {
@@ -9,13 +7,11 @@ namespace Tetris
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly Row[] rows;
 
-        internal Block(Shape shape)
-            : this(shape.ToArray(), shape, 0, 0) => Do.Nothing();
-
-        private Block(Row[] rows, Shape shape, int column, int offset)
+        internal Block(Rows rows, Shape shape, Rotation rotation, int column, int offset)
         {
-            this.rows = rows;
+            this.rows = rows.Select(shape, rotation, column);
             Shape = shape;
+            Rotation = rotation;
             Column = column;
             Offset = offset;
         }
@@ -23,19 +19,15 @@ namespace Tetris
         /// <summary>Gets <see cref="Tetris.Shape"/> of the block.</summary>
         public Shape Shape { get; }
 
+        /// <summary>Gets <see cref="Tetris.Rotation"/> of the block.</summary>
+        public Rotation Rotation { get; }
+
         /// <summary>Gets the column (offset).</summary>
         internal int Column { get; }
 
-        /// <summary>Gets the width (including the column offset).</summary>
-        internal int Width => Column + Shape.Width;
-
         /// <inheritdoc />
         public override string ToString()
-        => $"Shape: {Shape.Type}{(Shape.Rotation == default ? "" : $" ({Shape.Rotation})")}, " +
+        => $"Shape: {Shape}{(Rotation == default ? "" : $" ({Rotation})")}, " +
             $"Col: {Column}, Offset: {Offset}";
-
-        internal Block CreateUp() => new Block(rows, Shape, Column, Offset + 1);
-
-        internal Block CreateRight() => new Block(rows.Select(r => r.Right()).ToArray(), Shape, Column + 1, Offset);
     }
 }

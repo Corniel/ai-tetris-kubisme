@@ -12,7 +12,7 @@ namespace Row_specs
         [TestCase(0b_00000_00110, ".......XX.")]
         public void Represent_a_row(int bits, string str)
         {
-            var row = Row.New(bits);
+            var row = Row.New((ushort)bits);
             Assert.AreEqual(str, row.ToString());
         }
 
@@ -23,7 +23,7 @@ namespace Row_specs
         [TestCase(0b_00000_00110, 2)]
         public void Knows_total_of_bits(int bits, int count)
         {
-            var row = Row.New(bits);
+            var row = Row.New((ushort)bits);
             Assert.AreEqual(count, row.Count);
         }
     }

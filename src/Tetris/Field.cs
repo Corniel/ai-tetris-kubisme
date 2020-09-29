@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 
 namespace Tetris
 {
     /// <summary>Represents Testis field.</summary>
-    public readonly struct Field : Rows
+    public readonly struct Field
     {
         public static readonly Field Start = new Field(new Row[20], 20, 0);
 
@@ -142,11 +141,7 @@ namespace Tetris
         public static Field New(params ushort[] rows)
         {
             var h = rows.Length;
-            var rs = rows
-                .Reverse()
-                .Select(r => Row.New(r))
-                .SkipWhile(r => r.IsEmpty())
-                .ToArray();
+            var rs = Rows.New(rows);
             return new Field(rs, (byte)h, (byte)rs.Length);
         }
     }

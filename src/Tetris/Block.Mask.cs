@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Tetris
+﻿namespace Tetris
 {
     public partial class Block
     {
@@ -11,6 +9,6 @@ namespace Tetris
         public int Offset { get; }
 
         /// <summary>Gets the height of the block (including <see cref="Offset"/>.</summary>
-        public int Height => Offset + Shape.Height;
+        public int Height => Offset + rows.Length;
     }
 }

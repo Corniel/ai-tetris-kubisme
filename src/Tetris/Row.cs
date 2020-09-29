@@ -5,6 +5,7 @@ namespace Tetris
 {
     public readonly struct Row : IEquatable<Row>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly ushort bits;
 
         public static readonly Row Empty;
@@ -19,7 +20,6 @@ namespace Tetris
 
         /// <summary>Returns true if not empty.</summary>
         public bool NotEmpty() => bits != default;
-
 
         /// <summary>Returns true if full.</summary>
         public bool IsFull() => bits == Full.bits;
@@ -57,11 +57,7 @@ namespace Tetris
         public static bool operator !=(Row l, Row r) => !(l == r);
         public static Row operator |(Row l, Row r) => l.Merge(r);
     
-        public static Row New(int bits)
-        {
-            if (bits < Empty.bits || bits > Full.bits) { throw new ArgumentOutOfRangeException(); }
-            return new Row((ushort)bits);
-        }
+        public static Row New(ushort bits) => new Row(bits);
 
         private static readonly ushort[] flag = new ushort[]{
             0b_10000_00000,
