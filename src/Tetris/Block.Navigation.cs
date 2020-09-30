@@ -44,11 +44,27 @@ namespace Tetris
         /// - <see cref="TurnLeft"/>
         /// - <see cref="TurnRight"/>
         /// </remarks>
-        public IReadOnlyCollection<Block> Explore { get; private set; }
+        public IReadOnlyCollection<Block> Nexts { get; private set; }
 
-        internal void InitExplore()
-            => Explore = new[] { Down, Left, Right, TurnLeft, TurnRight }
+        /// <summary>Gets the blocks to explore (excluding down) after this one.</summary>
+        /// <remarks>
+        /// Order:
+        /// - <see cref="Left"/>
+        /// - <see cref="Right"/>
+        /// - <see cref="TurnLeft"/>
+        /// - <see cref="TurnRight"/>
+        /// </remarks>
+        public IReadOnlyCollection<Block> Others { get; private set; }
+
+        internal void InitNexts()
+        { 
+            Nexts = new[] { Down, Left, Right, TurnLeft, TurnRight }
                 .Where(b => b is Block)
                 .ToArray();
+
+            Others = new[] { Left, Right, TurnLeft, TurnRight }
+                .Where(b => b is Block)
+                .ToArray();
+        }
     }
 }

@@ -1,19 +1,25 @@
 ﻿using SmartAss;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Tetris.Collections;
 
-namespace Tetris.Kubisme.Generation
+namespace Tetris.Generation
 {
     public class MoveGenerator : IEnumerator<Move>, IEnumerable<Move>
     {
         private const byte True = 255;
         private Field field;
         private readonly byte[] done = new byte[4000];
-        private readonly Queue<Block> queue = new Queue<Block>();
+        private readonly FixedQueue<Block> queue = new FixedQueue<Block>(4000 / 7);
 
         public MoveGenerator(Field field, Block block)
         {
             this.field = field;
+            while (block.Offset > field.Filled + 2)
+            {
+                block = block.Down;
+            }
             queue.Enqueue(block);
         }
         public Move Current { get; private set; }
@@ -22,7 +28,7 @@ namespace Tetris.Kubisme.Generation
 
         public bool MoveNext()
         {
-            if (queue.Count == 0) { return false; }
+            if (queue.IsEmpty) { return false; }
 
             var block = queue.Dequeue();
             var fit = field.Fits(block);
@@ -31,23 +37,22 @@ namespace Tetris.Kubisme.Generation
             {
                 return MoveNext();
             }
-            else
+            else if (fit == Fit.True)
             {
-                Enqueue(block);
-                return fit == Fit.True
-                    ? Move(block)
-                    : MoveNext();
+                Enqueue(block.Others);
+                return Move(block);
+            }
+            else /* if (fit == Fit.Maybe) */
+            {
+                Enqueue(block.Nexts);
+                return MoveNext();
             }
         }
 
-        private void Enqueue(Block block)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void Enqueue(IEnumerable<Block> blocks)
         {
-            if (block.Offset == 0 && block.Column < 2)
-            {
-
-            }
-
-            foreach (var next in block.Explore)
+            foreach (var next in blocks)
             {
                 if (done[next.Id] == 0)
                 {
@@ -57,6 +62,7 @@ namespace Tetris.Kubisme.Generation
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool Move(Block block)
         {
             // TODO: for blocks that have a rotated

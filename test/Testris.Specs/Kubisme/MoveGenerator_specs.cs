@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Linq;
+using Testris.Specs;
 using Tetris;
-using Tetris.Kubisme.Generation;
+using Tetris.Generation;
 
 namespace MoveGenerator_specs
 {
@@ -20,9 +20,11 @@ namespace MoveGenerator_specs
             var blocks = Blocks.Init();
             var field = Field.Start;
 
-            var generator = new MoveGenerator(field, blocks.Spawn(shape));
-            var all = generator.ToArray();
-
+            var all = Speed.Measure(()=>
+            {
+                var generator = new MoveGenerator(field, blocks.Spawn(shape));
+                return generator.ToArray();
+            });
             Assert.AreEqual(moves, all.Length);
         }
     }

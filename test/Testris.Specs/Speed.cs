@@ -6,6 +6,14 @@ namespace Testris.Specs
 {
     internal static class Speed
     {
+        public static T Measure<T>(Func<T> func)
+        {
+            var sw = Stopwatch.StartNew();
+            var result = func();
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed.Format());
+            return result;
+        }
         public static void Runs(Action action, int runs = 1, TimeSpan? maxDuration = default)
         {
             var sw = Stopwatch.StartNew();

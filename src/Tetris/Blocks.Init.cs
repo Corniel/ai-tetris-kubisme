@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Tetris
+﻿namespace Tetris
 {
     public partial class Blocks
     {
@@ -52,7 +50,7 @@ namespace Tetris
                 block.Right = Init(Right(block));
                 block.TurnLeft = Init(rotation.TurnLeft(block));
                 block.TurnRight = Init(rotation.TurnRight(block));
-                block.InitExplore();
+                block.InitNexts();
 
                 return block;
             }
