@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{38304A
 		design\blocks.webp = design\blocks.webp
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris.Kubisme", "src\Tetris.Kubisme\Tetris.Kubisme.csproj", "{619CF4DD-B2C8-4337-8D0E-A3DB0BD9DB21}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,10 +35,6 @@ Global
 		{9F56E3AD-4120-4B7F-847D-EDF6C8C44B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F56E3AD-4120-4B7F-847D-EDF6C8C44B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F56E3AD-4120-4B7F-847D-EDF6C8C44B0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{619CF4DD-B2C8-4337-8D0E-A3DB0BD9DB21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{619CF4DD-B2C8-4337-8D0E-A3DB0BD9DB21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{619CF4DD-B2C8-4337-8D0E-A3DB0BD9DB21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{619CF4DD-B2C8-4337-8D0E-A3DB0BD9DB21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
