@@ -1,4 +1,6 @@
-﻿namespace Tetris
+﻿using System.Linq;
+
+namespace Tetris
 {
     public partial class Blocks
     {
@@ -23,9 +25,14 @@
             {
                 blocks.Init(block);
             }
+            var id = 0;
+            foreach(var block in blocks)
+            {
+                block.Id = id++;
+            }
+            blocks.Count = id;
             return blocks;
         }
-
 
         private Block Init(Block block)
         {

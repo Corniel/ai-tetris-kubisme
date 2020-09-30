@@ -15,6 +15,8 @@ namespace Tetris
             rotation = rotationSystem;
         }
 
+        public int Count { get; private set; }
+
         public Block Spawn(Shape shape) => spawns[(int)shape];
 
         public Block Select(int col, int offset, Shape shape, Rotation rotation)

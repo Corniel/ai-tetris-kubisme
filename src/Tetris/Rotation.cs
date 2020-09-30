@@ -3,7 +3,7 @@
 namespace Tetris
 {
     public readonly struct Rotation
-	{
+    {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly byte val;
 
@@ -18,6 +18,6 @@ namespace Tetris
 
         public override string ToString() => new[] { "None", "Right", "U-turn", "Left" }[val];
 
-        public static implicit operator int(Rotation r)=> r.val;
-	}
+        public static implicit operator int(Rotation r) => r.val;
+    }
 }

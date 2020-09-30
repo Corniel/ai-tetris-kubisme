@@ -7,7 +7,7 @@ namespace Tetris
     /// <summary>Represents Testis field.</summary>
     public readonly struct Field
     {
-        public static readonly Field Start = new Field(new Row[20], 20, 0);
+        public static readonly Field Start = new Field(Array.Empty<Row>(), 20, 0);
 
         private Field(Row[] rows, byte height, byte filled)
         {
@@ -42,6 +42,9 @@ namespace Tetris
         {
             // Not enough space.
             if (block.Height > Height) return Fit.False;
+
+            // Nothing to match yet
+            if (block.Offset > Filled) return Fit.Maybe;
 
             // the bottom of the field is a solid floor too.
             var hasFloor = block.Offset == 0;
