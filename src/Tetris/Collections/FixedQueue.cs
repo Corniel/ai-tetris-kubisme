@@ -30,15 +30,6 @@ namespace Tetris.Collections
 
         public T Dequeue() => queue[tail++];
 
-        public IEnumerable<T> DequeueCurrent()
-        {
-            var count = Count;
-            for (var i = 0; i < count; i++)
-            {
-                yield return Dequeue();
-            }
-        }
-
         public void Clear()
         {
             head = 0;
