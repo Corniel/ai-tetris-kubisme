@@ -1,4 +1,5 @@
 ﻿using SmartAss;
+using System.Collections.Generic;
 
 namespace Tetris.Generation
 {
@@ -25,7 +26,9 @@ namespace Tetris.Generation
         public MoveCandidate Next(MoveCandidate candidate)
             => new MoveCandidate(candidate.Block, Steps.Add(candidate.Steps.First));
 
-        public int Offset => Block.Offset;
-        public int Id => Block.Id;
+        internal int Offset => Block.Offset;
+        internal int Id => Block.Id;
+        internal IEnumerable<MoveCandidate> Nexts => Block.Nexts;
+        internal IEnumerable<MoveCandidate> Others => Block.Others;
     }
 }

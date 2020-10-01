@@ -42,12 +42,12 @@ namespace Tetris.Generation
             }
             else if (fit == Fit.True)
             {
-                Enqueue(candidate, candidate.Block.Others);
+                Enqueue(candidate, candidate.Others);
                 return Set(candidate);
             }
             else /* if (fit == Fit.Maybe) */
             {
-                Enqueue(candidate, candidate.Block.Nexts);
+                Enqueue(candidate, candidate.Nexts);
                 return MoveNext();
             }
         }
