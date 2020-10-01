@@ -36,11 +36,14 @@ namespace Tetris
 			}
 		}
 
-		/// <summary>Gets the last added action.</summary>
-		/// <remarks>
-		/// Useful to prevent infinite left-right switches.
-		/// </remarks>
-		public Step Last
+        /// <summary>Gets the first added action.</summary>
+        public Step First => (Step)(steps0 & 7);
+
+        /// <summary>Gets the last added action.</summary>
+        /// <remarks>
+        /// Useful to prevent infinite left-right switches.
+        /// </remarks>
+        public Step Last
 		{
 			get
 			{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tetris.Generation;
 
 namespace Tetris
 {
@@ -44,7 +45,7 @@ namespace Tetris
         /// - <see cref="TurnLeft"/>
         /// - <see cref="TurnRight"/>
         /// </remarks>
-        public IReadOnlyCollection<Block> Nexts { get; private set; }
+        public IReadOnlyCollection<MoveCandidate> Nexts { get; private set; }
 
         /// <summary>Gets the blocks to explore (excluding down) after this one.</summary>
         /// <remarks>
@@ -54,17 +55,30 @@ namespace Tetris
         /// - <see cref="TurnLeft"/>
         /// - <see cref="TurnRight"/>
         /// </remarks>
-        public IReadOnlyCollection<Block> Others { get; private set; }
+        public IReadOnlyCollection<MoveCandidate> Others { get; private set; }
 
         internal void InitNexts()
         { 
-            Nexts = new[] { Down, Left, Right, TurnLeft, TurnRight }
-                .Where(b => b is Block)
-                .ToArray();
+            Nexts = new[] 
+            {
+               new MoveCandidate(Down, Step.Down),
+               new MoveCandidate(Left, Step.Left),
+               new MoveCandidate(Right, Step.Right),
+               new MoveCandidate(TurnLeft, Step.TurnLeft),
+               new MoveCandidate(TurnRight, Step.TurnRight),
+            }
+            .Where(c => c.Block is Block)
+            .ToArray();
 
-            Others = new[] { Left, Right, TurnLeft, TurnRight }
-                .Where(b => b is Block)
-                .ToArray();
+            Others = new[] 
+            {
+               new MoveCandidate(Left, Step.Left),
+               new MoveCandidate(Right, Step.Right),
+               new MoveCandidate(TurnLeft, Step.TurnLeft),
+               new MoveCandidate(TurnRight, Step.TurnRight),
+            }
+            .Where(c => c.Block is Block)
+            .ToArray();
         }
     }
 }

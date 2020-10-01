@@ -6,23 +6,26 @@ using Tetris.Collections;
 
 namespace Tetris.Generation
 {
-    public class MoveGenerator : IEnumerator<Move>, IEnumerable<Move>
+    public class MoveGenerator : IEnumerator<MoveCandidate>, IEnumerable<MoveCandidate>
     {
         private const byte True = 255;
         private Field field;
         private readonly byte[] done = new byte[4000];
-        private readonly FixedQueue<Block> queue = new FixedQueue<Block>(4000 / 7);
+        private readonly FixedQueue<MoveCandidate> queue = new FixedQueue<MoveCandidate>(4000 / 7);
 
         public MoveGenerator(Field field, Block block)
         {
             this.field = field;
-            while (block.Offset > field.Filled + 2)
+
+            var candidate = new MoveCandidate(block);
+
+            while (candidate.Offset > field.Filled + 2)
             {
-                block = block.Down;
+                candidate = candidate.Down();
             }
-            queue.Enqueue(block);
+            queue.Enqueue(candidate);
         }
-        public Move Current { get; private set; }
+        public MoveCandidate Current { get; private set; }
 
         object IEnumerator.Current => Current;
 
@@ -30,8 +33,8 @@ namespace Tetris.Generation
         {
             if (queue.IsEmpty) { return false; }
 
-            var block = queue.Dequeue();
-            var fit = field.Fits(block);
+            var candidate = queue.Dequeue();
+            var fit = field.Fits(candidate.Block);
 
             if (fit == Fit.False)
             {
@@ -39,41 +42,41 @@ namespace Tetris.Generation
             }
             else if (fit == Fit.True)
             {
-                Enqueue(block.Others);
-                return Move(block);
+                Enqueue(candidate, candidate.Block.Others);
+                return Set(candidate);
             }
             else /* if (fit == Fit.Maybe) */
             {
-                Enqueue(block.Nexts);
+                Enqueue(candidate, candidate.Block.Nexts);
                 return MoveNext();
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void Enqueue(IEnumerable<Block> blocks)
+        private void Enqueue(MoveCandidate candidate, IEnumerable<MoveCandidate> nexts)
         {
-            foreach (var next in blocks)
+            foreach (var next in nexts)
             {
                 if (done[next.Id] == 0)
                 {
                     done[next.Id] = True;
-                    queue.Enqueue(next);
+                    queue.Enqueue(candidate.Next(next));
                 }
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool Move(Block block)
+        private bool Set(MoveCandidate candidate)
         {
             // TODO: for blocks that have a rotated
             // version, check if that one has been passed.
-            Current = field.Move(block);
+            Current = candidate;
             return true;
         }
 
         public void Reset() => field = default;
 
-        public IEnumerator<Move> GetEnumerator() => this;
+        public IEnumerator<MoveCandidate> GetEnumerator() => this;
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public void Dispose() => Do.Nothing();

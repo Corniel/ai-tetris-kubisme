@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Linq;
 using Testris.Specs;
 using Tetris;
@@ -25,6 +26,11 @@ namespace MoveGenerator_specs
                 var generator = new MoveGenerator(field, blocks.Spawn(shape));
                 return generator.ToArray();
             });
+
+            foreach (var move in all)
+            {
+                Console.WriteLine(move.Steps);
+            }
             Assert.AreEqual(moves, all.Length);
         }
     }
