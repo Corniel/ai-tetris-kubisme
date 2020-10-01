@@ -31,7 +31,7 @@ namespace Tetris
         public Row Merge(Row other) => new Row((ushort)(bits | other.bits));
 
         /// <summary>Return true if the rows have overlap.</summary>
-        public bool HaveOverlap(Row other) => (bits & other.bits) != 0;
+        public bool HasOverlapWith(Row other) => (bits & other.bits) != 0;
 
         /// <inheritdoc />
         public override bool Equals(object obj) => obj is Row other && Equals(other);

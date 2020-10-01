@@ -54,13 +54,13 @@ namespace Tetris
 
             while (row < end)
             {
-                if (block[row].HaveOverlap(this[row]))
+                if (block[row].HasOverlapWith(this[row]))
                 {
                     return Fit.False;
                 }
                 else if (!hasFloor)
                 {
-                    hasFloor = block[row].HaveOverlap(this[row - 1]);
+                    hasFloor = block[row].HasOverlapWith(this[row - 1]);
                 }
                 row++;
             }
