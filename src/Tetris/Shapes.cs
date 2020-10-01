@@ -2,6 +2,17 @@
 {
     public static class Shapes
     {
+        public static readonly Shape[] All = new[] 
+        {
+            Shape.I, 
+            Shape.J,
+            Shape.L, 
+            Shape.O, 
+            Shape.S,
+            Shape.T, 
+            Shape.Z 
+        };
+
         public static readonly Row[] I = Rows.New(
             0b11110_00000);
 

@@ -1,4 +1,6 @@
-﻿namespace Tetris
+﻿using System.Linq;
+
+namespace Tetris
 {
     public partial class Blocks
     {
@@ -6,7 +8,7 @@
 
         public static Blocks Init(Rows rows, RotationSystem rotationSystem)
         {
-            var spawns = new Block[]
+            var spawns = new[]
             {
                 rows.Block(Shape.I, default, 4, 18),
                 rows.Block(Shape.J, default, 4, 17),
@@ -23,12 +25,17 @@
             {
                 blocks.Init(block);
             }
-            var id = 0;
-            foreach(var block in blocks)
+
+            foreach (var shape in Shapes.All)
             {
-                block.Id = id++;
+                short hash = 0;
+                foreach (var block in blocks.Where(b => b.Shape == shape))
+                {
+                    block.Hash = hash++;
+                    blocks.Count++;
+                }
             }
-            blocks.Count = id;
+
             return blocks;
         }
 
@@ -56,20 +63,20 @@
             }
         }
 
-        private Block Down(Block block) 
+        private Block Down(Block block)
             => block.Offset == 0
             ? null
-            : Select(block.Column, block.Offset -1, block.Shape, block.Rotation)
+            : Select(block.Column, block.Offset - 1, block.Shape, block.Rotation)
             ?? rows.Block(block.Shape, block.Rotation, block.Column, block.Offset - 1);
 
         private Block Left(Block block)
             => block.Column == 0
             ? null
             : Select(block.Column - 1, block.Offset, block.Shape, block.Rotation)
-            ?? rows.Block(block.Shape, block.Rotation, block.Column -1, block.Offset);
+            ?? rows.Block(block.Shape, block.Rotation, block.Column - 1, block.Offset);
 
         private Block Right(Block block)
-           => block.Column >= rows.Columns(block.Shape, block.Rotation) -1
+           => block.Column >= rows.Columns(block.Shape, block.Rotation) - 1
            ? null
            : Select(block.Column + 1, block.Offset, block.Shape, block.Rotation)
            ?? rows.Block(block.Shape, block.Rotation, block.Column + 1, block.Offset);

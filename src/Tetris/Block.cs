@@ -16,7 +16,7 @@ namespace Tetris
             Offset = offset;
         }
         /// <summary>Gets the identifier of the block.</summary>
-        public int Id { get; internal set; }
+        public short Hash { get; internal set; }
 
         /// <summary>Gets <see cref="Tetris.Shape"/> of the block.</summary>
         public Shape Shape { get; }
