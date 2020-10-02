@@ -30,9 +30,9 @@ namespace Tetris.Generation
 
         public bool MoveNext()
         {
-            if (queue.IsEmpty) 
+            if (queue.IsEmpty)
             {
-                return false; 
+                return false;
             }
 
             var candidate = queue.Dequeue();
