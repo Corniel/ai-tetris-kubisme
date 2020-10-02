@@ -6,7 +6,6 @@ Alexey Pajitnov in 1984. This is my implementation to
 
 ## Shape
 There are 7 Shapes, I, J, L, O, S, T, Z, all having seven rotations (excluding O, who has one).
-![All seven tetriminos using the standard color scheme](https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Tetrominoes_IJLO_STZ_Worlds.svg/220px-Tetrominoes_IJLO_STZ_Worlds.svg.png)
 
 ![All seven tetriminos with their rotations](./design/blocks.webp)
 
