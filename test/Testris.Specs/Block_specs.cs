@@ -26,10 +26,10 @@ namespace Block_specs
         }
 
         [Test]
-        public void Within_10ms()
+        public void Within_50ms()
         {
             var rows = Rows.All();
-            Speed.Runs(() => Blocks.Init(rows, null), 1, TimeSpan.FromMilliseconds(10));
+            Speed.Runs(() => Blocks.Init(rows, null), 1, TimeSpan.FromMilliseconds(50));
         }
 
         [Test]
