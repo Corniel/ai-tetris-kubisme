@@ -15,8 +15,12 @@ namespace Tetris
             Column = column;
             Offset = offset;
         }
+        
         /// <summary>Gets the identifier of the block.</summary>
-        public short Hash { get; internal set; }
+        public short Id { get; internal set; }
+
+        /// <summary>Gets the primary (identifier) of the block.</summary>
+        public short Primary { get; internal set; }
 
         /// <summary>Gets <see cref="Tetris.Shape"/> of the block.</summary>
         public Shape Shape { get; }

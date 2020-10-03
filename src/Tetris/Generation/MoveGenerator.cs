@@ -9,7 +9,7 @@ namespace Tetris.Generation
     public class MoveGenerator : IEnumerator<MoveCandidate>, IEnumerable<MoveCandidate>
     {
         private Field field;
-        private readonly Visited visted = new Visited();
+        private readonly Tracker tracker = new Tracker();
         private readonly FixedQueue<MoveCandidate> queue = new FixedQueue<MoveCandidate>(4000 / 7);
 
         public MoveGenerator(Field field, Block block)
@@ -45,7 +45,7 @@ namespace Tetris.Generation
             else if (fit == Fit.True)
             {
                 Enqueue(candidate, candidate.Others);
-                return Set(candidate);
+                return NewMove(candidate) || MoveNext();
             }
             else /* if (fit == Fit.Maybe) */
             {
@@ -59,7 +59,7 @@ namespace Tetris.Generation
         {
             foreach (var next in nexts)
             {
-                if (visted.Add(next.Hash))
+                if (tracker.Visit(next.Id))
                 {
                     queue.Enqueue(candidate.Next(next));
                 }
@@ -67,12 +67,10 @@ namespace Tetris.Generation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool Set(MoveCandidate candidate)
+        private bool NewMove(MoveCandidate candidate)
         {
-            // TODO: for blocks that have a rotated
-            // version, check if that one has been passed.
             Current = candidate;
-            return true;
+            return tracker.Move(candidate.Primary);
         }
 
         public void Reset() => field = default;

@@ -124,5 +124,10 @@
             0b01000_00000,
             0b11000_00000,
             0b10000_00000);
+
+        public static bool HasPrimary(this Shape shape)
+            => shape == Shape.I
+            || shape == Shape.S
+            || shape == Shape.Z;
     }
 }

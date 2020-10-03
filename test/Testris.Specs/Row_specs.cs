@@ -8,39 +8,34 @@ namespace Row_specs
 {
     public class All
     {
-        private const int None = 0;
-        private const int Right = 1;
-        private const int UTurn = 2;
-        private const int Left = 3;
-
-        [TestCase(07, Shape.I, None)]
-        [TestCase(10, Shape.I, Right)]
-        [TestCase(07, Shape.I, UTurn)]
-        [TestCase(10, Shape.I, Left)]
-        [TestCase(08, Shape.J, None)]
-        [TestCase(09, Shape.J, Right)]
-        [TestCase(08, Shape.J, UTurn)]
-        [TestCase(09, Shape.J, Left)]
-        [TestCase(08, Shape.L, None)]
-        [TestCase(09, Shape.L, Right)]
-        [TestCase(08, Shape.L, UTurn)]
-        [TestCase(09, Shape.L, Left)]
-        [TestCase(09, Shape.O, None)]
-        [TestCase(08, Shape.S, None)]
-        [TestCase(09, Shape.S, Right)]
-        [TestCase(08, Shape.S, UTurn)]
-        [TestCase(09, Shape.S, Left)]
-        [TestCase(08, Shape.T, None)]
-        [TestCase(09, Shape.T, Right)]
-        [TestCase(08, Shape.T, UTurn)]
-        [TestCase(09, Shape.T, Left)]
-        [TestCase(08, Shape.Z, None)]
-        [TestCase(09, Shape.Z, Right)]
-        [TestCase(08, Shape.Z, UTurn)]
-        [TestCase(09, Shape.Z, Left)]
-        public void Columns_have_values_between_7_and_10(int columns, Shape shape, int rotation)
+        [TestCase(07, Shape.I, Rotation.None)]
+        [TestCase(10, Shape.I, Rotation.Right)]
+        [TestCase(07, Shape.I, Rotation.Uturn)]
+        [TestCase(10, Shape.I, Rotation.Left)]
+        [TestCase(08, Shape.J, Rotation.None)]
+        [TestCase(09, Shape.J, Rotation.Right)]
+        [TestCase(08, Shape.J, Rotation.Uturn)]
+        [TestCase(09, Shape.J, Rotation.Left)]
+        [TestCase(08, Shape.L, Rotation.None)]
+        [TestCase(09, Shape.L, Rotation.Right)]
+        [TestCase(08, Shape.L, Rotation.Uturn)]
+        [TestCase(09, Shape.L, Rotation.Left)]
+        [TestCase(09, Shape.O, Rotation.None)]
+        [TestCase(08, Shape.S, Rotation.None)]
+        [TestCase(09, Shape.S, Rotation.Right)]
+        [TestCase(08, Shape.S, Rotation.Uturn)]
+        [TestCase(09, Shape.S, Rotation.Left)]
+        [TestCase(08, Shape.T, Rotation.None)]
+        [TestCase(09, Shape.T, Rotation.Right)]
+        [TestCase(08, Shape.T, Rotation.Uturn)]
+        [TestCase(09, Shape.T, Rotation.Left)]
+        [TestCase(08, Shape.Z, Rotation.None)]
+        [TestCase(09, Shape.Z, Rotation.Right)]
+        [TestCase(08, Shape.Z, Rotation.Uturn)]
+        [TestCase(09, Shape.Z, Rotation.Left)]
+        public void Columns_have_values_between_7_and_10(int columns, Shape shape, Rotation rotation)
         {
-            Assert.AreEqual(columns, Rows.All().Columns(shape, new Rotation(rotation)));
+            Assert.AreEqual(columns, Rows.All().Columns(shape, rotation));
         }
 
         [Test]

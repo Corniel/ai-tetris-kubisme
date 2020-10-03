@@ -23,7 +23,7 @@ namespace Tetris
            => Select(col, offset, shape, rotation, 0);
 
         public Block Select(int col, int offset, Shape shape, Rotation rotation, int add)
-            => items[col][offset][(int)shape][rotation.Rotate(add)];
+            => items[col][offset][(int)shape][rotation.Rotate(add).Int()];
 
         public IEnumerator<Block> GetEnumerator() => items
             .SelectMany(m => m)

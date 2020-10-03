@@ -1,23 +1,32 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
 
 namespace Tetris
 {
-    public readonly struct Rotation
+    public enum Rotation : byte
     {
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly byte val;
-
-        public static readonly Rotation None;
-        public static readonly Rotation Right = new Rotation(1);
-        public static readonly Rotation Uturn = new Rotation(2);
-        public static readonly Rotation Left = new Rotation(3);
-
-        public Rotation(int val) => this.val = (byte)(val & 3);
-
-        public Rotation Rotate(int steps) => new Rotation(val + steps);
-
-        public override string ToString() => new[] { "None", "Right", "U-turn", "Left" }[val];
-
-        public static implicit operator int(Rotation r) => r.val;
+        None = 0,
+        Right = 1,
+        Uturn = 2,
+        Left = 3,
     }
+
+    public static class Rotations
+    {
+        public static readonly IReadOnlyList<Rotation> All = new[]
+        {
+            Rotation.None,
+            Rotation.Right,
+            Rotation.Uturn,
+            Rotation.Left,
+        };
+
+        public static int Int(this Rotation rotation) => (int)rotation;
+
+        public static Rotation Primary(this Rotation rotation)
+            => (Rotation)(rotation.Int() & 1);
+
+        public static Rotation Rotate(this Rotation rotation, int steps)
+            => (Rotation)((rotation.Int() + steps) & 3);
+    }
+
 }
