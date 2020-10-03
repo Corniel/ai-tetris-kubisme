@@ -26,3 +26,8 @@ to get a new field after the move (of the block) has been done.
 ## Move generator
 The move generator gives all possible move candidates that describe both the steps to get
 the block that fits as the block itself.
+
+## Random generator
+As a too long sequence of S and Z shapes will - even with perfect play - result
+in a holes that can not be filled, the random generator should return a bag of
+7 unique shapes.
