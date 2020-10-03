@@ -19,7 +19,7 @@ namespace Tetris
         /// <summary>Gets the identifier of the block.</summary>
         public short Id { get; internal set; }
 
-        /// <summary>Gets the hash of the block.</summary>
+        /// <summary>Gets the primary (identifier) of the block.</summary>
         public short Primary { get; internal set; }
 
         /// <summary>Gets <see cref="Tetris.Shape"/> of the block.</summary>
