@@ -33,7 +33,7 @@
 
         private static Offset Offset(Shape shape, Rotation rotation, int add) => offsets
            [(int)shape]
-           [rotation.Rotate(add)];
+           [rotation.Rotate(add).Int()];
 
         private static readonly Offset[][] offsets = new Offset[][]
         {

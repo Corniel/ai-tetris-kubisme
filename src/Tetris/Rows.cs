@@ -32,10 +32,10 @@ namespace Tetris
             : new Block(this, shape, rotation, column, offset);
 
         public int Columns(Shape shape, Rotation rotation)
-            => rows[(int)shape][rotation].Length;
+            => rows[(int)shape][rotation.Int()].Length;
 
         public Row[] Select(Shape shape, Rotation rotation, int column)
-            => rows[(int)shape][rotation][column];
+            => rows[(int)shape][rotation.Int()][column];
 
         public static Rows All()
         {
