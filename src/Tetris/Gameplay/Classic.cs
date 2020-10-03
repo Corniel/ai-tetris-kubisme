@@ -1,14 +1,12 @@
 ﻿using System;
-using Troschuetz.Random;
-using Troschuetz.Random.Generators;
 
 namespace Tetris.Gameplay
 {
     public class Classic
     {
-        private readonly IGenerator rnd;
+        private readonly RandomGenerator rnd;
         private Classic(
-            IGenerator generator,
+            RandomGenerator generator,
             TimeSpan time,
             Field field,
             Blocks blocks,
@@ -43,7 +41,7 @@ namespace Tetris.Gameplay
             var block = Blocks.Spawn(Current);
             var move = Field.Move(block, steps);
             var field = move.Field;
-            var next = NextShape(rnd);
+            var next = rnd.Next();
             var score = Score + move.Clearing.Rows * (Level + 1);
             var moves = Moves + 1;
             var level = Math.Max(Level, moves / 10);
@@ -63,22 +61,20 @@ namespace Tetris.Gameplay
         public static Classic Start(
             int startLevel = 0, 
             Blocks blocks = null,
-            IGenerator generator = null)
+            RandomGenerator generator = null)
         {
-            generator ??= new MT19937Generator();
+            generator ??= new RandomGenerator();
             blocks ??= Blocks.Init();
             return new Classic(
                 generator: generator,
                 time: TimeSpan.FromSeconds(0.5),
                 field: Field.New(),
                 blocks: blocks,
-                current: NextShape(generator),
-                next: NextShape(generator),
+                current: generator.Next(),
+                next: generator.Next(),
                 score: 0,
                 level: startLevel,
                 moves: 0);
         }
-
-        private static Shape NextShape(IGenerator generator) => (Shape)generator.Next(7);
-    }
+            }
 }
