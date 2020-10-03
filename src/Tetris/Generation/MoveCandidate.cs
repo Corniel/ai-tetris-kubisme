@@ -27,7 +27,9 @@ namespace Tetris.Generation
             => new MoveCandidate(candidate.Block, Steps.Add(candidate.Steps.First));
 
         internal int Offset => Block.Offset;
-        internal short Hash => Block.Hash;
+        internal short Id => Block.Id; 
+        internal short Primary => Block.Primary;
+
         internal IEnumerable<MoveCandidate> Nexts => Block.Nexts;
         internal IEnumerable<MoveCandidate> Others => Block.Others;
     }

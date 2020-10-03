@@ -28,12 +28,25 @@ namespace Tetris
 
             foreach (var shape in Shapes.All)
             {
-                short hash = 0;
+                short id = 0;
                 foreach (var block in blocks.Where(b => b.Shape == shape))
                 {
-                    block.Hash = hash++;
+                    block.Id = id++;
                     blocks.Count++;
                 }
+            }
+            foreach(var block in blocks)
+            {
+                var primary = block.Shape.HasPrimary()
+                    ? blocks
+                        .Select(
+                            col: block.Column,
+                            offset: block.Offset,
+                            shape: block.Shape,
+                            rotation: block.Rotation.Primary()) ?? block
+                    : block;
+
+                block.Primary = primary.Id;
             }
 
             return blocks;

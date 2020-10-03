@@ -9,10 +9,27 @@ namespace Block_specs
     public class Initialized
     {
         [Test]
-        public void Within_10ms()
+        public void For_JLOT_IDs_and_Primaries_are_equal()
+        {
+            var blocks = Blocks.Init();
+
+            var JLOT = blocks.Where(b
+                => b.Shape == Shape.J
+                || b.Shape == Shape.L
+                || b.Shape == Shape.O
+                || b.Shape == Shape.T);
+
+            foreach(var block in JLOT)
+            {
+                Assert.AreEqual(block.Id, block.Primary, block.ToString());
+            }
+        }
+
+        [Test]
+        public void Within_50ms()
         {
             var rows = Rows.All();
-            Speed.Runs(() => Blocks.Init(rows, null), 1, TimeSpan.FromMilliseconds(10));
+            Speed.Runs(() => Blocks.Init(rows, null), 1, TimeSpan.FromMilliseconds(50));
         }
 
         [Test]
