@@ -9,35 +9,50 @@ namespace Tetris.Generation
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     [DebuggerTypeProxy(typeof(CollectionDebugView))]
-    public sealed class Visited : IEnumerable<int>
+    public sealed class Tracker : IEnumerable<int>
     {
-        private const byte True = 255;
+        private const byte Visited = 1;
+        private const byte Moved = 255;
         private const int capacity = 600;
 
         private readonly byte[] lookup = new byte[capacity];
 
         public int Count => this.Count();
 
-        public bool Add(int hash)
+        public bool Visit(int id)
         {
-            var visited = lookup[hash];
-            if(visited == True)
+            var value = lookup[id];
+            if(value != default)
             {
                 return false;
             }
             else
             {
-                lookup[hash] = True;
+                lookup[id] = Visited;
                 return true;
             }
         }
 
+        public bool Move(int id)
+        {
+            var value = lookup[id];
+            if (value == Moved)
+            {
+                return false;
+            }
+            else
+            {
+                lookup[id] = Moved;
+                return true;
+            }
+        }
+        
         public void Clear() => Array.Clear(lookup, 0, capacity);
 
         public IEnumerator<int> GetEnumerator()
             => lookup
             .Select((hash, i) => i)
-            .Where(i => lookup[i] == True)
+            .Where(i => lookup[i] != default)
             .GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

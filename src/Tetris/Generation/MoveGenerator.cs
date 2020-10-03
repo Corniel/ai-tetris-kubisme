@@ -9,8 +9,7 @@ namespace Tetris.Generation
     public class MoveGenerator : IEnumerator<MoveCandidate>, IEnumerable<MoveCandidate>
     {
         private Field field;
-        private readonly Visited visted = new Visited();
-        private readonly Visited moved = new Visited();
+        private readonly Tracker tracker = new Tracker();
         private readonly FixedQueue<MoveCandidate> queue = new FixedQueue<MoveCandidate>(4000 / 7);
 
         public MoveGenerator(Field field, Block block)
@@ -60,7 +59,7 @@ namespace Tetris.Generation
         {
             foreach (var next in nexts)
             {
-                if (visted.Add(next.Id))
+                if (tracker.Visit(next.Id))
                 {
                     queue.Enqueue(candidate.Next(next));
                 }
@@ -71,7 +70,7 @@ namespace Tetris.Generation
         private bool NewMove(MoveCandidate candidate)
         {
             Current = candidate;
-            return moved.Add(candidate.Primary);
+            return tracker.Move(candidate.Primary);
         }
 
         public void Reset() => field = default;
