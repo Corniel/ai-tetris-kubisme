@@ -53,7 +53,7 @@ namespace MoveGenerator_specs
             var duration = TimeSpan.Zero;
             var total = 0;
 
-            foreach (var shape in Shapes.All.Reverse())
+            foreach (var shape in Shapes.All)
             {
                 Console.Write($"Shape: {shape}, ");
 

@@ -23,7 +23,7 @@ namespace Tetris
 
         /// <summary>Gets total of filled rows.</summary>
         public readonly byte Filled;
-        
+
         /// <summary>Gets the height of the field.</summary>
         public int Height => height;
 
@@ -98,15 +98,29 @@ namespace Tetris
             var target = source;
             var moved = new Row[Math.Max(Filled, block.Height)];
 
-            // copy untouched rows
+            // copy untouched rows bellow block
             Array.Copy(rows, moved, source);
 
             // merge touched rows
-            while (source < moved.Length)
+            while (source < block.Height)
             {
                 moved[target] = this[source].Merge(block[source]);
                 source++;
-                target += moved[target].IsFull() ? 1 : 0;
+
+                if (moved[target].IsFull())
+                {
+                    moved[target] = Row.Empty;
+                }
+                else
+                {
+                    target++;
+                }
+            }
+
+            // copy untouched rows above block
+            while (source < rows.Length)
+            {
+                moved[target++] = rows[source++];
             }
 
             var clearing = new Clearing(
