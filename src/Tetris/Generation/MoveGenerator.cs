@@ -6,28 +6,20 @@ using Tetris.Collections;
 
 namespace Tetris.Generation
 {
-    public class MoveGenerator : IEnumerator<MoveCandidate>, IEnumerable<MoveCandidate>
+    public partial class MoveGenerator : IEnumerator<MoveCandidate>, IEnumerable<MoveCandidate>
     {
         private Field field;
+
         private readonly Tracker tracker = new Tracker();
         private readonly FixedQueue<MoveCandidate> queue = new FixedQueue<MoveCandidate>(4000 / 7);
 
-        public MoveGenerator(Field field, Block block)
-        {
-            this.field = field;
+        private MoveGenerator(Field field) => this.field = field;
 
-            var candidate = new MoveCandidate(block);
-
-            while (candidate.Offset > field.Filled + 2)
-            {
-                candidate = candidate.Down();
-            }
-            queue.Enqueue(candidate);
-        }
         public MoveCandidate Current { get; private set; }
 
         object IEnumerator.Current => Current;
 
+        /// <inheritdoc />
         public bool MoveNext()
         {
             if (queue.IsEmpty)
@@ -35,8 +27,8 @@ namespace Tetris.Generation
                 return false;
             }
 
-            var candidate = queue.Dequeue();
-            var fit = field.Fits(candidate.Block);
+            Current = queue.Dequeue();
+            var fit = field.Fits(Current.Block);
 
             if (fit == Fit.False)
             {
@@ -44,40 +36,47 @@ namespace Tetris.Generation
             }
             else if (fit == Fit.True)
             {
-                Enqueue(candidate, candidate.Others);
-                return NewMove(candidate) || MoveNext();
+                Enqueue(Current.Others);
+                return IsNewMove() || MoveNext();
             }
             else /* if (fit == Fit.Maybe) */
             {
-                Enqueue(candidate, candidate.Nexts);
+                Enqueue(Current.Nexts);
                 return MoveNext();
             }
         }
 
+        /// <summary>Adds new move candidates to the queue.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void Enqueue(MoveCandidate candidate, IEnumerable<MoveCandidate> nexts)
+        private void Enqueue(IEnumerable<MoveCandidate> candidates)
         {
-            foreach (var next in nexts)
+            foreach (var next in candidates)
             {
                 if (tracker.Visit(next.Id))
                 {
-                    queue.Enqueue(candidate.Next(next));
+                    queue.Enqueue(Current.Next(next));
                 }
             }
         }
 
+        /// <summary>Returns true if the current is a new move.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool NewMove(MoveCandidate candidate)
-        {
-            Current = candidate;
-            return tracker.Move(candidate.Primary);
-        }
+        private bool IsNewMove() => tracker.Move(Current.Primary);
 
-        public void Reset() => field = default;
-
+        /// <inheritdoc />
         public IEnumerator<MoveCandidate> GetEnumerator() => this;
+
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+        /// <inheritdoc />
+        public void Reset()
+        {
+            queue.Clear();
+            tracker.Clear();
+        }
+
+        /// <inheritdoc />
         public void Dispose() => Do.Nothing();
     }
 }
