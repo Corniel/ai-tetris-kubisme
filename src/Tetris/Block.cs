@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using SmartAss;
+using System.Diagnostics;
 
 namespace Tetris
 {
@@ -7,14 +8,17 @@ namespace Tetris
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly Row[] rows;
 
-        internal Block(Rows rows, Shape shape, Rotation rotation, int column, int offset)
+        protected Block(Row[] rows, Shape shape, Rotation rotation, int column, int offset)
         {
-            this.rows = rows.Select(shape, rotation, column);
+            this.rows = rows;
             Shape = shape;
             Rotation = rotation;
             Column = column;
             Offset = offset;
         }
+
+        internal Block(Rows rows, Shape shape, Rotation rotation, int column, int offset)
+            : this(rows.Select(shape, rotation, column), shape, rotation, column, offset) => Do.Nothing();
         
         /// <summary>Gets the identifier of the block.</summary>
         public short Id { get; internal set; }

@@ -22,8 +22,8 @@ namespace Tetris
         
         public static Row[] Trim(params ushort[] rows) => rows
            .Select(r => new Row(r))
-           .Reverse()
            .SkipWhile(r => r.IsEmpty())
+            .Reverse()
            .ToArray();
 
         public Block Block(Shape shape, Rotation rotation, int column, int offset)

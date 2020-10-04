@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SmartAss;
+using System.Collections.Generic;
 using Tetris;
 using Troschuetz.Random.Generators;
 
@@ -33,5 +34,15 @@ namespace Testris.Specs
 
             return fields;
         }
+
+        public static Block Block(Shape shape, Rotation rotation, int column, int offset, params ushort[] rows)
+            => new TestBlock(Rows.New(rows), shape, rotation, column, offset);
+
+        private class TestBlock : Block
+        {
+            public TestBlock(Row[] rows, Shape shape, Rotation rotation, int column, int offset)
+                : base(rows, shape, rotation, column, offset) => Do.Nothing();
+        }
     }
+
 }
