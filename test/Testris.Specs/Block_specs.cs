@@ -29,7 +29,7 @@ namespace Block_specs
         public void Within_50ms()
         {
             var rows = Rows.All();
-            Speed.Runs(() => Blocks.Init(rows, null), 1, TimeSpan.FromMilliseconds(50));
+            Speed.Runs(() => Blocks.Init(rows, null), TimeSpan.FromMilliseconds(50));
         }
 
         [Test]

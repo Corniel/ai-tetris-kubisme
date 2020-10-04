@@ -1,12 +1,10 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Testris.Specs;
 using Tetris;
 using Tetris.Generation;
-using Troschuetz.Random.Generators;
 
 namespace MoveGenerator_specs
 {
@@ -24,7 +22,7 @@ namespace MoveGenerator_specs
             var blocks = Blocks.Init();
             var field = Field.Start;
 
-            var all = Speed.Measure(()=>
+            var all = Speed.Measure(() =>
             {
                 var generator = MoveGenerator.New(field, blocks.Spawn(shape));
                 return generator.ToArray();
@@ -41,48 +39,38 @@ namespace MoveGenerator_specs
     public class Random_Access
     {
         /// <remarks>
-        /// ca. 2.2M paths/second
+        /// ca. 1.8M paths/second
         /// </remarks>
         [Test]
-        public void Speed()
+        public void Generates_MoveCandidates()
         {
-            var count = 1_000_000;
+            var count = 100_000;
             var blocks = Blocks.Init();
-            var fields = new Field[count];
-
-            var rnd = new MT19937Generator(17);
-
-            for (var i = 0; i < count; i++)
-            {
-                var height = rnd.Next(1, 5) * rnd.Next(1, 5);
-                var rows = new List<ushort>();
-                for (var h = 0; h < height; h++)
-                {
-                    var bits = (ushort)(rnd.Next(1, 0b_11111_11111) & rnd.Next(1, 0b_11111_11111));
-                    if (Row.New(bits).NotEmpty())
-                    {
-                        rows.Add(bits);
-                    }
-                }
-                fields[i] = Field.New(rows.ToArray());
-            }
+            var fields = Data.Fields(count);
 
             var moves = new List<MoveCandidate>(500);
+
+            var duration = TimeSpan.Zero;
+            var total = 0;
 
             foreach (var shape in Shapes.All.Reverse())
             {
                 Console.Write($"Shape: {shape}, ");
-                Speed.Runs(() =>
+
+                duration += Speed.Runs(() =>
                 {
                     foreach (var field in fields)
                     {
                         moves.Clear();
                         var generator = MoveGenerator.New(field, blocks.Spawn(shape));
                         moves.AddRange(generator);
+                        total += moves.Count;
                         generator.Release();
                     }
                 });
             }
+
+            Console.WriteLine($"total: {total:#,##0} ({total / (1000 * duration.TotalMilliseconds):#,##0.000} M/s)");
         }
     }
 }

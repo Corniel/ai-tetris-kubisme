@@ -14,16 +14,13 @@ namespace Testris.Specs
             Console.WriteLine(sw.Elapsed.Format());
             return result;
         }
-        public static void Runs(Action action, int runs = 1, TimeSpan? maxDuration = default)
+        public static TimeSpan Runs(Action action, TimeSpan? maxDuration = default)
         {
             var sw = Stopwatch.StartNew();
-            for (var run = 0; run < runs; run++)
-            {
-                action();
-            }
+            action();
             sw.Stop();
 
-            var elapsed = sw.Elapsed / runs;
+            var elapsed = sw.Elapsed;
 
             var message = $"Expected duration below: {maxDuration.Format()}" + Environment.NewLine +
                 $"Actual duration: {elapsed.Format()}";
@@ -31,6 +28,8 @@ namespace Testris.Specs
             Console.WriteLine(message);
 
             Assert.IsTrue(!maxDuration.HasValue || maxDuration > elapsed, message);
+
+            return elapsed;
         }
 
         private static string Format(this TimeSpan time) => Format((TimeSpan?)time);

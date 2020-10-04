@@ -41,7 +41,7 @@ namespace Row_specs
         [Test]
         public void Are_initialized_within_5ms()
         {
-            Speed.Runs(() => Rows.All(), 1, TimeSpan.FromMilliseconds(5));
+            Speed.Runs(() => Rows.All(), TimeSpan.FromMilliseconds(5));
         }
 
         [Test]
