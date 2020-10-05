@@ -5,7 +5,7 @@ using Testris.Specs;
 using Tetris;
 using Tetris.Generation;
 
-namespace Field_specs.Specs
+namespace Field_specs
 {
     public class Random_Access
     {
