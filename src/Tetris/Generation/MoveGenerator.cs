@@ -36,21 +36,32 @@ namespace Tetris.Generation
             }
             else if (fit == Fit.True)
             {
-                Enqueue(Current.Others);
+                Enqueue();
                 return IsNewMove() || MoveNext();
             }
             else /* if (fit == Fit.Maybe) */
             {
-                Enqueue(Current.Nexts);
+                EnqueueDown();
+                Enqueue();
                 return MoveNext();
+            }
+        }
+
+        /// <summary>Adds the down candidates to the queue with priority.</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void EnqueueDown()
+        {
+            if (Current.Block.Down != null)
+            {
+                queue.Prioritize(new MoveCandidate(Current.Block.Down, Step.Down));
             }
         }
 
         /// <summary>Adds new move candidates to the queue.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void Enqueue(IEnumerable<MoveCandidate> candidates)
+        private void Enqueue()
         {
-            foreach (var next in candidates)
+            foreach (var next in Current.Nexts)
             {
                 if (tracker.Visit(next.Id))
                 {

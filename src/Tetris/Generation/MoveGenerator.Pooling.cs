@@ -8,9 +8,7 @@ namespace Tetris.Generation
 
         public static MoveGenerator New(Field field, Block block)
         {
-            // TODO: enable.
-            //var generator = pool.Get(()=> new MoveGenerator(field));
-            var generator =  new MoveGenerator(field);
+            var generator = pool.Get(()=> new MoveGenerator(field));
             return generator.Init(block);
         }
 
@@ -24,6 +22,7 @@ namespace Tetris.Generation
             {
                 Current = Current.Down();
             }
+            tracker.Visit(Current.Id);
             queue.Enqueue(Current);
 
             return this;

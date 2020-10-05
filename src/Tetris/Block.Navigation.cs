@@ -36,17 +36,6 @@ namespace Tetris
         /// <summary>Gets the block after a <see cref="Step.TurnRight"/>.</summary>
         public Block TurnRight { get; internal set; }
 
-        /// <summary>Gets the blocks to explore after this one.</summary>
-        /// <remarks>
-        /// Order:
-        /// - <see cref="Down"/>
-        /// - <see cref="Left"/>
-        /// - <see cref="Right"/>
-        /// - <see cref="TurnLeft"/>
-        /// - <see cref="TurnRight"/>
-        /// </remarks>
-        public IReadOnlyCollection<MoveCandidate> Nexts { get; private set; }
-
         /// <summary>Gets the blocks to explore (excluding down) after this one.</summary>
         /// <remarks>
         /// Order:
@@ -55,22 +44,11 @@ namespace Tetris
         /// - <see cref="TurnLeft"/>
         /// - <see cref="TurnRight"/>
         /// </remarks>
-        public IReadOnlyCollection<MoveCandidate> Others { get; private set; }
+        public IReadOnlyCollection<MoveCandidate> Nexts { get; private set; }
 
         internal void InitNexts()
-        { 
+        {
             Nexts = new[] 
-            {
-               new MoveCandidate(Down, Step.Down),
-               new MoveCandidate(Left, Step.Left),
-               new MoveCandidate(Right, Step.Right),
-               new MoveCandidate(TurnLeft, Step.TurnLeft),
-               new MoveCandidate(TurnRight, Step.TurnRight),
-            }
-            .Where(c => c.Block is Block)
-            .ToArray();
-
-            Others = new[] 
             {
                new MoveCandidate(Left, Step.Left),
                new MoveCandidate(Right, Step.Right),

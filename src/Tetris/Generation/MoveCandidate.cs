@@ -31,6 +31,5 @@ namespace Tetris.Generation
         internal short Primary => Block.Primary;
 
         internal IEnumerable<MoveCandidate> Nexts => Block.Nexts;
-        internal IEnumerable<MoveCandidate> Others => Block.Others;
     }
 }
