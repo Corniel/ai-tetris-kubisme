@@ -10,11 +10,11 @@ namespace Steps_specs
         public void From_array_of_5_contains_full_input()
         {
             var array = new [] { Step.Left, Step.Right, Step.Down, Step.TurnLeft, Step.TurnRight };
-            var steps = Steps.Create(array);
+            var path = Path.Create(array);
 
-            Assert.AreEqual(5, steps.Count);
-            Assert.AreEqual(array, steps.ToArray());
-            Assert.AreEqual("left,right,down,turnleft,turnright", steps.ToString());
+            Assert.AreEqual(5, path.Length);
+            Assert.AreEqual(array, path.ToArray());
+            Assert.AreEqual("left,right,down,turnleft,turnright", path.ToString());
         }
 
         [Test]
@@ -29,9 +29,9 @@ namespace Steps_specs
                 Step.Left, Step.Right, Step.Down, Step.TurnRight, Step.TurnRight 
             };
 
-            var steps = Steps.Create(array);
+            var steps = Path.Create(array);
 
-            Assert.AreEqual(25, steps.Count);
+            Assert.AreEqual(25, steps.Length);
             Assert.AreEqual(array, steps.ToArray());
             Assert.AreEqual(
                 "left,right,down,turnleft,turnright," +
@@ -65,9 +65,9 @@ namespace Steps_specs
         [TestCase(20)]
         public void Down(int st)
         {
-            var steps = Steps.Down(st);
+            var steps = Path.Down(st);
 
-            Assert.AreEqual(st, steps.Count);
+            Assert.AreEqual(st, steps.Length);
             Assert.AreEqual(st, steps.Count());
             Assert.IsTrue(steps.All(step => step == Step.Down));
         }

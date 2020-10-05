@@ -7,7 +7,7 @@ namespace Tetris.MonteCarlo
 {
     public class MonteCarloBot
     {
-        public Steps Play(Classic game)
+        public Path Play(Classic game)
         {
             var block = game.Blocks.Spawn(game.Current);
 
@@ -17,7 +17,7 @@ namespace Tetris.MonteCarlo
                 .Select(candidate =>Variation.Select(game.Field, candidate, game.Level))
                 .ToArray();
 
-            return candidates[0].Steps;
+            return candidates[0].Path;
         }
     }
 

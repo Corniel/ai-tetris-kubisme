@@ -5,15 +5,15 @@ using System.Diagnostics;
 
 namespace Tetris
 {
-	public readonly struct Steps :
-		IEquatable<Steps>,
+	public readonly struct Path :
+		IEquatable<Path>,
 		IEnumerable<Step>
 	{
 		private const ulong Mask = 0x0FFF_FFFF_FFFF_FFFF;
 
-		public static readonly Steps None;
+		public static readonly Path None;
 
-		private Steps(ulong m0, ulong m1, int count)
+		private Path(ulong m0, ulong m1, int count)
 		{
 			m0 |= ((ulong)count) << 60;
 			m1 |= ((ulong)count >> 4) << 60;
@@ -26,7 +26,8 @@ namespace Tetris
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ulong steps1;
 
-		public int Count
+        /// <summary>Gets the length of the path.</summary>
+		public int Length
 		{
 			get
 			{
@@ -47,16 +48,16 @@ namespace Tetris
 		{
 			get
 			{
-				var shft = Count * 3;
+				var shft = Length * 3;
 				return shft < 60
 					? (Step)((steps0 >> shft) & 7)
 					: (Step)((steps1 >> (shft - 60)) & 7);
 			}
 		}
 
-		public Steps Add(Step step)
+		public Path Add(Step step)
 		{
-			var count = Count;
+			var count = Length;
 			var m0 = steps0 & Mask;
 			var m1 = steps1 & Mask;
 
@@ -68,15 +69,15 @@ namespace Tetris
 			{
 				m1 |= ((ulong)step) << (3 * (count - 20));
 			}
-			return new Steps(m0, m1, count + 1);
+			return new Path(m0, m1, count + 1);
 		}
 
-		public Steps AddTurnLeft() => Add(Step.TurnLeft);
-		public Steps AddTurnRight() => Add(Step.TurnRight);
-		public Steps AddLeft() => Add(Step.Left);
-		public Steps AddRight() => Add(Step.Right);
-		public Steps AddDown() => Add(Step.Down);
-		public Steps AddDrop() => Add(Step.Drop);
+		public Path AddTurnLeft() => Add(Step.TurnLeft);
+		public Path AddTurnRight() => Add(Step.TurnRight);
+		public Path AddLeft() => Add(Step.Left);
+		public Path AddRight() => Add(Step.Right);
+		public Path AddDown() => Add(Step.Down);
+		public Path AddDrop() => Add(Step.Drop);
 
 		/// <inheritdoc />
 		public override int GetHashCode()
@@ -84,10 +85,10 @@ namespace Tetris
 
 		/// <inheritdoc />
 		public override bool Equals(object obj)
-			=> obj is Steps other && Equals(other);
+			=> obj is Path other && Equals(other);
 
 		/// <inheritdoc />
-		public bool Equals(Steps other)
+		public bool Equals(Path other)
 			=> other.steps0 == steps0
 			&& other.steps1 == steps1;
 
@@ -105,7 +106,7 @@ namespace Tetris
 
 		private IEnumerable<Step> Enumerate()
 		{
-			var count = Count * 3;
+			var count = Length * 3;
 			var c1 = count > 60 ? 60 : count;
 			for (var i = 0; i < c1; i += 3)
 			{
@@ -120,7 +121,7 @@ namespace Tetris
 			}
 		}
 
-		public static Steps Create(params Step[] steps)
+		public static Path Create(params Step[] steps)
 		{
 			ulong m0 = 0;
 			ulong m1 = 0;
@@ -138,12 +139,12 @@ namespace Tetris
 				}
 				p += 3;
 			}
-			return new Steps(m0, m1, p / 3);
+			return new Path(m0, m1, p / 3);
 		}
 
-		public static Steps Down(int steps) => downs[steps];
+		public static Path Down(int steps) => downs[steps];
 
-		private static readonly Steps[] downs = new []
+		private static readonly Path[] downs = new []
 		{
 			None,
 			Create(Step.Down),

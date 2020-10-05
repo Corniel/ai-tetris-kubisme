@@ -31,7 +31,7 @@ namespace MoveGenerator_specs
 
             foreach (var move in all)
             {
-                Console.WriteLine(move.Steps);
+                Console.WriteLine(move.Path);
             }
 
             Assert.AreEqual(moves, all.Length);

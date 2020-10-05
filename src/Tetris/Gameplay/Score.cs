@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tetris.Gameplay
+﻿namespace Tetris.Gameplay
 {
     public static class Score
     {
-        public static int Classic(int level, Steps steps, Clearing clearing)
+        public static int Classic(int level, Path path, Clearing clearing)
         {
             return 0;
         }

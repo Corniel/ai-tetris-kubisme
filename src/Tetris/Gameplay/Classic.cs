@@ -36,10 +36,10 @@ namespace Tetris.Gameplay
             public int Level { get; }
             public int Moves { get; }
 
-        public Classic Move(Steps steps)
+        public Classic Move(Path path)
         {
             var block = Blocks.Spawn(Current);
-            var move = Field.Move(block, steps);
+            var move = Field.Move(block, path);
             var field = move.Field;
             var next = rnd.Next();
             var score = Score + move.Clearing.Rows * (Level + 1);

@@ -68,11 +68,11 @@ namespace Tetris
             return hasFloor ? Fit.True : Fit.Maybe;
         }
 
-        public Move Move(Block block, Steps steps)
+        public Move Move(Block block, Path path)
         {
             var fit = Fit.Maybe;
 
-            foreach (var step in steps)
+            foreach (var step in path)
             {
                 // ignore further steps.
                 if (block is null) { break; }
