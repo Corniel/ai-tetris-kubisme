@@ -41,7 +41,7 @@ namespace MoveGenerator_specs
     public class Random_Access
     {
         /// <remarks>
-        /// ca. 550k paths/second
+        /// ca. 1.3M paths/second
         /// </remarks>
         [Test]
         public void Generates_MoveCandidates()
@@ -54,6 +54,8 @@ namespace MoveGenerator_specs
 
             var duration = TimeSpan.Zero;
             var total = 0;
+
+            Assert.NotNull(MoveGenerator.New(Field.Start, blocks.Spawn(Shape.I)));
 
             foreach (var shape in Shapes.All)
             {
@@ -72,7 +74,7 @@ namespace MoveGenerator_specs
                 });
             }
 
-            Console.WriteLine($"total: {total:#,##0} ({total / duration.TotalMilliseconds:#,##0.000} k/s)");
+            Console.WriteLine($"total: {total:#,##0} ({(total / 1000d) / duration.TotalMilliseconds:#,##0.000} M/s)");
         }
     }
 }

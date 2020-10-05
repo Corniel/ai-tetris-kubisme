@@ -39,19 +39,13 @@ namespace SmartAss.Pooling
         /// </remarks>
         public T Get(Func<T> create)
         {
-            if (Count == 0)
-            {
-                return create();
-            }
-            T item;
+            if (Count == 0) return create();
+
             lock (locker)
             {
-                item = (Count == 0)
-                    ? create()
-                    : pool[--Count];
+                if (Count != 0) return pool[--Count];
             }
-
-            return item;
+            return create();
         }
 
         /// <summary>Releases the item for reuse.</summary>
@@ -81,15 +75,16 @@ namespace SmartAss.Pooling
         }
 
         /// <summary>Populates the full object pool.</summary>
-        public void Populate(Func<T> create)
+        public ObjectPool<T> Populate(Func<T> create, int count)
         {
             lock (locker)
             {
-                while (Count < Capacity)
+                while (Count < count)
                 {
                     pool[Count++] = create();
                 }
             }
+            return this;
         }
 
         /// <inheritdoc />
