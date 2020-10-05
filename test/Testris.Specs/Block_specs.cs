@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Testris.Specs;
 using Tetris;
@@ -23,6 +24,31 @@ namespace Block_specs
             {
                 Assert.AreEqual(block.Id, block.Primary, block.ToString());
             }
+        }
+        [TestCase(Shape.I)]
+        [TestCase(Shape.S)]
+        [TestCase(Shape.Z)]
+        public void Primaries_occur_not_more_then_twice_for(Shape shape)
+        {
+            var blocks = Blocks.Init();
+
+            var subset = blocks.Where(b => b.Shape == shape);
+
+            var lookup = new Dictionary<int, int>();
+
+            foreach (var block in subset)
+            {
+                if(lookup.ContainsKey(block.Primary))
+                {
+                    lookup[block.Primary]++;
+                }
+                else
+                {
+                    lookup[block.Primary] = 1;
+                }
+            }
+
+            Assert.IsTrue(lookup.All(kvp => kvp.Value < 3));
         }
 
         [Test]

@@ -11,7 +11,7 @@ namespace Tetris.Generation
         private Field field;
 
         private readonly Tracker tracker = new Tracker();
-        private readonly FixedQueue<MoveCandidate> queue = new FixedQueue<MoveCandidate>(4000 / 7);
+        private readonly FixedQueue<MoveCandidate> queue = new FixedQueue<MoveCandidate>(600);
 
         private MoveGenerator(Field field) => this.field = field;
 

@@ -25,7 +25,9 @@ namespace MoveGenerator_specs
             var all = Speed.Measure(() =>
             {
                 var generator = MoveGenerator.New(field, blocks.Spawn(shape));
-                return generator.ToArray();
+                var result = generator.ToArray();
+                generator.Release();
+                return result;
             });
 
             foreach (var move in all)

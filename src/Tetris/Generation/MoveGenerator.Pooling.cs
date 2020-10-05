@@ -8,7 +8,9 @@ namespace Tetris.Generation
 
         public static MoveGenerator New(Field field, Block block)
         {
-            var generator = pool.Get(()=> new MoveGenerator(field));
+            // TODO: enable.
+            //var generator = pool.Get(()=> new MoveGenerator(field));
+            var generator =  new MoveGenerator(field);
             return generator.Init(block);
         }
 
