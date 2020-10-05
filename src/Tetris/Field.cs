@@ -5,7 +5,7 @@ using System.Text;
 namespace Tetris
 {
     /// <summary>Represents Testis field.</summary>
-    public readonly struct Field
+    public readonly struct Field : IEquatable<Field>
     {
         public static readonly Field Start = new Field(Array.Empty<Row>(), 20, 0);
 
@@ -104,21 +104,18 @@ namespace Tetris
             // merge touched rows
             while (source < block.Height)
             {
-                moved[target] = this[source].Merge(block[source]);
-                source++;
+                var merged = this[source].Merge(block[source]);
 
-                if (moved[target].IsFull())
+                if (!merged.IsFull())
                 {
-                    moved[target] = Row.Empty;
+                    moved[target++] = merged;
                 }
-                else
-                {
-                    target++;
-                }
+
+                source++;
             }
 
             // copy untouched rows above block
-            while (source < rows.Length)
+            while (source < Filled)
             {
                 moved[target++] = rows[source++];
             }
@@ -131,7 +128,7 @@ namespace Tetris
             var field = new Field(
                 rows: moved,
                 height: height,
-                filled: (byte)(target + 1));
+                filled: (byte)(target));
 
             return new Move(clearing, field);
         }
@@ -153,6 +150,33 @@ namespace Tetris
                 }
             }
             return sb.ToString();
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj) => obj is Field other && Equals(other);
+
+        /// <inheritdoc />
+        public bool Equals(Field other)
+        {
+            if (Filled != other.Filled || Height != other.Height) { return false; }
+            for(var r = 0; r < Filled; r++)
+            {
+                if (rows[r] != other.rows[r]) { return false; }
+            }
+            return true;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            var hash = 0;
+
+            for (var r = 0; r < Filled; r++)
+            {
+                hash *= 17;
+                hash ^= rows[r].GetHashCode();
+            }
+            return hash;
         }
 
         public static Field New(params ushort[] rows)

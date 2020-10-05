@@ -5,6 +5,9 @@ namespace Tetris
 {
     public readonly struct Clearing : IEquatable<Clearing>
     {
+        public static readonly Clearing None;
+        public static readonly Clearing Tetris = new Clearing(4, false, false);
+
         private const byte Flag_PerfectClear = 0b0100_0000;
         private const byte Flag_TSpin = 0b0100_0000;
 
