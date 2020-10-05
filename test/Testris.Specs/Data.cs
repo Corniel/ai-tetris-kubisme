@@ -26,7 +26,7 @@ namespace Testris.Specs
                 }
                 while(rows.Count < 20)
                 {
-                    rows.Add(default);
+                    rows.Insert(0, default);
                 }
 
                 fields[i] = Field.New(rows.ToArray());

@@ -17,18 +17,16 @@ namespace Field_specs
             var fields = Data.Fields(count);
 
             var moves = new List<MoveCandidate>[count];
-            
+
             foreach (var shape in Shapes.All)
             {
-                for(var i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     var field = fields[i];
 
                     var generator = MoveGenerator.New(field, blocks.Spawn(shape));
-
                     moves[i] ??= new List<MoveCandidate>();
                     moves[i].AddRange(generator);
-                    generator.Release();
                 }
             }
 
@@ -41,7 +39,7 @@ namespace Field_specs
                     var field = fields[i];
                     var candidates = moves[i];
 
-                    foreach(var candidate in candidates )
+                    foreach (var candidate in candidates)
                     {
                         var move = field.Move(candidate.Block);
                         total++;

@@ -7,10 +7,7 @@ namespace Tetris.Generation
         private static readonly ObjectPool<MoveGenerator> pool = new ObjectPool<MoveGenerator>(256);
 
         public static MoveGenerator New(Field field, Block block)
-        {
-            var generator = pool.Get(()=> new MoveGenerator(field));
-            return generator.Init(block);
-        }
+           => pool.Get(() => new MoveGenerator(field)).Init(block);
 
         private MoveGenerator Init(Block block)
         {

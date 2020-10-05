@@ -39,6 +39,10 @@ namespace SmartAss.Pooling
         /// </remarks>
         public T Get(Func<T> create)
         {
+            if (Count == 0)
+            {
+                return create();
+            }
             T item;
             lock (locker)
             {

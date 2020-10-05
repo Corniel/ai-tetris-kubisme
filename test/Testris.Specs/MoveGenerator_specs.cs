@@ -26,7 +26,6 @@ namespace MoveGenerator_specs
             {
                 var generator = MoveGenerator.New(field, blocks.Spawn(shape));
                 var result = generator.ToArray();
-                generator.Release();
                 return result;
             });
 
@@ -34,6 +33,7 @@ namespace MoveGenerator_specs
             {
                 Console.WriteLine(move.Steps);
             }
+
             Assert.AreEqual(moves, all.Length);
         }
     }
@@ -41,12 +41,12 @@ namespace MoveGenerator_specs
     public class Random_Access
     {
         /// <remarks>
-        /// ca. 1.8M paths/second
+        /// ca. 550k paths/second
         /// </remarks>
         [Test]
         public void Generates_MoveCandidates()
         {
-            var count = 100_000;
+            var count = 10_000;
             var blocks = Blocks.Init();
             var fields = Data.Fields(count);
 
@@ -72,7 +72,7 @@ namespace MoveGenerator_specs
                 });
             }
 
-            Console.WriteLine($"total: {total:#,##0} ({total / (1000 * duration.TotalMilliseconds):#,##0.000} M/s)");
+            Console.WriteLine($"total: {total:#,##0} ({total / duration.TotalMilliseconds:#,##0.000} k/s)");
         }
     }
 }
