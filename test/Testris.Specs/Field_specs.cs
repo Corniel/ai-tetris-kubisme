@@ -9,10 +9,13 @@ namespace Field_specs
 {
     public class Random_Access
     {
+        /// <remarks>
+        /// ca. 8.0M Moves/second
+        /// </remarks>
         [Test]
         public void Move_block()
         {
-            var count = 1_000;
+            var count = 10_000;
             var blocks = Blocks.Init();
             var fields = Data.Fields(count);
 
