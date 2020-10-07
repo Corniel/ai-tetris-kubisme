@@ -55,21 +55,46 @@ namespace Tetris
 			}
 		}
 
-		public Path Add(Step step)
+        /// <summary>Gets the totals of downs.</summary>
+        public int Downs
+        {
+            get
+            {
+                var total = 0;
+
+                var length = Length * 3;
+                var c1 = length > 60 ? 60 : length;
+                for (var i = 0; i < c1; i += 3)
+                {
+                    var step = (Step)((steps0 >> i) & 7);
+                    if (step == Step.Down) { total++; }
+                }
+                length -= 60;
+                for (var i = 0; i < length; i += 3)
+                {
+                    var step = (Step)((steps1 >> i) & 7);
+                    if (step == Step.Down) { total++; }
+                }
+
+                return total;
+            }
+        }
+
+        public Path Add(Step step)
 		{
-			var count = Length;
+			var length = Length;
 			var m0 = steps0 & Mask;
 			var m1 = steps1 & Mask;
 
-			if (count < 20)
+			if (length < 20)
 			{
-				m0 |= ((ulong)step) << (3 * count);
+				m0 |= ((ulong)step) << (3 * length);
 			}
 			else
 			{
-				m1 |= ((ulong)step) << (3 * (count - 20));
+				m1 |= ((ulong)step) << (3 * (length - 20));
 			}
-			return new Path(m0, m1, count + 1);
+			return new Path(m0, m1, length + 1);
 		}
 
 		public Path AddTurnLeft() => Add(Step.TurnLeft);
@@ -106,15 +131,15 @@ namespace Tetris
 
 		private IEnumerable<Step> Enumerate()
 		{
-			var count = Length * 3;
-			var c1 = count > 60 ? 60 : count;
+			var length = Length * 3;
+			var c1 = length > 60 ? 60 : length;
 			for (var i = 0; i < c1; i += 3)
 			{
 				var step = (Step)((steps0 >> i) & 7);
 				yield return step;
 			}
-			count -= 60;
-			for (var i = 0; i < count; i += 3)
+			length -= 60;
+			for (var i = 0; i < length; i += 3)
 			{
 				var step = (Step)((steps1 >> i) & 7);
 				yield return step;

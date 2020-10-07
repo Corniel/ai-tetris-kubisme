@@ -12,11 +12,16 @@ namespace Tetris.MonteCarlo
 
             var generator = MoveGenerator.New(game.Field, block);
 
-            var candidates = generator
-                .Select(candidate =>Variation.Select(game.Field, candidate, game.Level))
+            var variations = generator
+                .Select(candidate =>Variation.Select(game.Blocks, game.Field, candidate, game.Level))
                 .ToArray();
 
-            return candidates[0].Path;
+            foreach(var variation in variations)
+            {
+                variation.Simulate();
+            }
+
+            return variations[0].Path;
         }
     }
 
