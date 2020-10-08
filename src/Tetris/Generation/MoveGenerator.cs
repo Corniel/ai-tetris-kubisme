@@ -50,12 +50,7 @@ namespace Tetris.Generation
         /// <summary>Adds the down candidates to the queue with priority.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void EnqueueDown()
-        {
-            if (Current.Block.Down != null)
-            {
-                queue.Prioritize(new MoveCandidate(Current.Block.Down, Step.Down));
-            }
-        }
+            => queue.Prioritize(new MoveCandidate(Current.Block.Down, Step.Down));
 
         /// <summary>Adds new move candidates to the queue.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
