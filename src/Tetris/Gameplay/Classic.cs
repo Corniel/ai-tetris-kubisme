@@ -1,12 +1,13 @@
 ﻿using System;
+using Tetris.Randomization;
 
 namespace Tetris.Gameplay
 {
     public class Classic
     {
-        private readonly RandomGenerator rnd;
+        private readonly NextShape rnd;
         private Classic(
-            RandomGenerator generator,
+            NextShape generator,
             TimeSpan time,
             Field field,
             Blocks blocks,
