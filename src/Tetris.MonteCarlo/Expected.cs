@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using static System.FormattableString;
 
 namespace Tetris.MonteCarlo
 {
@@ -20,7 +20,7 @@ namespace Tetris.MonteCarlo
 
         public int CompareTo(Expected other) => Value.CompareTo(other.Value);
 
-        public override string ToString() => $"{Value:#,##0.0}, Count: {count}";
+        public override string ToString() => Invariant($"{Value:#,##0.0}, Count: {count}");
 
         public static Expected operator +(Expected score, int value) => score.Add(value);
     }

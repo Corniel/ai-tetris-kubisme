@@ -43,9 +43,9 @@ namespace Tetris.Gameplay
             var move = Field.Move(block, path);
             var field = move.Field;
             var next = rnd.Next();
-            var score = Score + move.Clearing.Rows * (Level + 1);
             var moves = Moves + 1;
             var level = Math.Max(Level, moves / 10);
+            var score = Score + Gameplay.Score.Classic(level, path, move.Clearing);
 
             return new Classic(
                 generator: rnd,
@@ -69,7 +69,7 @@ namespace Tetris.Gameplay
             return new Classic(
                 generator: generator,
                 time: TimeSpan.FromSeconds(0.5),
-                field: Field.New(),
+                field: Field.Start,
                 blocks: blocks,
                 current: generator.Next(),
                 next: generator.Next(),

@@ -16,6 +16,6 @@ namespace Tetris.Randomization
 
         protected IGenerator Rnd { get; }
 
-        public virtual Shape Next() => (Shape)Rnd.Next(8);
+        public virtual Shape Next() => (Shape)Rnd.Next((int)Shape.Z);
     }
 }

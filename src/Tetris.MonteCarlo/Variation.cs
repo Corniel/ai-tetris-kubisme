@@ -4,6 +4,7 @@ using Tetris.Gameplay;
 using Tetris.Generation;
 using Tetris.Randomization;
 using Troschuetz.Random.Generators;
+using static System.FormattableString;
 
 namespace Tetris.MonteCarlo
 {
@@ -31,19 +32,25 @@ namespace Tetris.MonteCarlo
 
         public int Simulate(Field field, Shape shape, int score)
         {
-            var candidates = MoveGenerator.New(field, Blocks.Spawn(Shape.Next())).ToArray();
+            var candidates = MoveGenerator.New(field, Blocks.Spawn(shape)).ToArray();
 
-            if (candidates.Length == 0) { return score; }
+            if (candidates.Length == 0)
+            {
+                return score;
+            }
+            else
+            {
+                var candidate = candidates[Rnd.Next(candidates.Length)];
+                var move = field.Move(candidate.Block);
 
-            var candidate = candidates[Rnd.Next(candidates.Length)];
-            var move = field.Move(candidate.Block);
-
-            return Simulate(
-                field: move.Field,
-                shape: shape,
-                score: score + Score.Classic(1, candidate.Path, move.Clearing));
+                return Simulate(
+                    field: move.Field,
+                    shape: Shape.Next(),
+                    score: score + Score.Classic(1, candidate.Path, move.Clearing));
+            }
         }
 
+        public override string ToString() => Invariant($"E: {E}");
 
         public static Variation Select(Blocks blocks, Field field, MoveCandidate candidate, int level)
         {

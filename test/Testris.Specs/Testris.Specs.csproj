@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Tetris.MonteCarlo\Tetris.MonteCarlo.csproj" />
     <ProjectReference Include="..\..\src\Tetris\Tetris.csproj" />
   </ItemGroup>
 
