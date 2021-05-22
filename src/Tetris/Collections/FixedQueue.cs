@@ -26,8 +26,6 @@ namespace Tetris.Collections
 
         public bool HasAny => head != tail;
 
-        public void Prioritize(T item) => queue[--tail] = item;
-
         public void Enqueue(T item) => queue[head++] = item;
 
         public T Dequeue() => queue[tail++];

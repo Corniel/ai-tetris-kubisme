@@ -22,35 +22,27 @@ namespace Tetris.Generation
         /// <inheritdoc />
         public bool MoveNext()
         {
-            if (queue.IsEmpty)
+            while (queue.HasAny)
             {
-                return false;
-            }
+                Current = queue.Dequeue();
+                var fit = field.Fits(Current.Block);
 
-            Current = queue.Dequeue();
-            var fit = field.Fits(Current.Block);
+                while (fit == Fit.Maybe)
+                {
+                    Enqueue();
+                    Current = Current.Down();
+                    fit = field.Fits(Current.Block);
+                }
 
-            if (fit == Fit.False)
-            {
-                return MoveNext();
+                if (fit == Fit.True)
+                {
+                    Enqueue();
+                    if (IsNewMove()) return true;
+                }
+                else { /* No fit, so no enqueue. */ }
             }
-            else if (fit == Fit.True)
-            {
-                Enqueue();
-                return IsNewMove() || MoveNext();
-            }
-            else /* if (fit == Fit.Maybe) */
-            {
-                EnqueueDown();
-                Enqueue();
-                return MoveNext();
-            }
+            return false;
         }
-
-        /// <summary>Adds the down candidates to the queue with priority.</summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void EnqueueDown()
-            => queue.Prioritize(new MoveCandidate(Current.Block.Down, Step.Down));
 
         /// <summary>Adds new move candidates to the queue.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
