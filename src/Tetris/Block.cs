@@ -15,6 +15,7 @@ namespace Tetris
             Rotation = rotation;
             Column = column;
             Offset = offset;
+            HasFloor = offset == 0;
         }
 
         internal Block(Rows rows, Shape shape, Rotation rotation, int column, int offset)

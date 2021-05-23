@@ -46,8 +46,7 @@ namespace Tetris
             // Nothing to match yet
             if (block.Offset > Filled) return Fit.Maybe;
 
-            // the bottom of the field is a solid floor too.
-            var hasFloor = block.Offset == 0;
+            var hasFloor = block.HasFloor;
 
             var row = block.Offset;
             var end = block.Height;
@@ -58,13 +57,12 @@ namespace Tetris
                 {
                     return Fit.False;
                 }
-                else if (!hasFloor)
+                else
                 {
-                    hasFloor = block[row].HasOverlapWith(this[row - 1]);
+                    hasFloor |= block[row].HasOverlapWith(this[row - 1]);
                 }
                 row++;
             }
-
             return hasFloor ? Fit.True : Fit.Maybe;
         }
 
@@ -86,6 +84,11 @@ namespace Tetris
             while (fit == Fit.Maybe)
             {
                 fit = Fits(block);
+                
+                if(block.Down is null)
+                {
+
+                }
                 block = block.Down;
             }
             return Move(block);
