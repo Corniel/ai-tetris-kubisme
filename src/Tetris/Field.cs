@@ -57,9 +57,9 @@ namespace Tetris
                 {
                     return Fit.False;
                 }
-                else
+                else if (!hasFloor)
                 {
-                    hasFloor |= block[row].HasOverlapWith(this[row - 1]);
+                    hasFloor = block[row].HasOverlapWith(this[row - 1]);
                 }
                 row++;
             }
@@ -84,11 +84,6 @@ namespace Tetris
             while (fit == Fit.Maybe)
             {
                 fit = Fits(block);
-                
-                if(block.Down is null)
-                {
-
-                }
                 block = block.Down;
             }
             return Move(block);
@@ -162,7 +157,7 @@ namespace Tetris
         public bool Equals(Field other)
         {
             if (Filled != other.Filled || Height != other.Height) { return false; }
-            for(var r = 0; r < Filled; r++)
+            for (var r = 0; r < Filled; r++)
             {
                 if (rows[r] != other.rows[r]) { return false; }
             }

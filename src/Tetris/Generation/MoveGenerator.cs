@@ -48,11 +48,14 @@ namespace Tetris.Generation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void Enqueue()
         {
-            foreach (var next in Current.Nexts)
+            if (Current.Offset <= field.Filled + 2)
             {
-                if (tracker.Visit(next.Id))
+                foreach (var next in Current.Nexts)
                 {
-                    queue.Enqueue(Current.Next(next));
+                    if (tracker.Visit(next.Id))
+                    {
+                        queue.Enqueue(Current.Next(next));
+                    }
                 }
             }
         }

@@ -15,11 +15,6 @@ namespace Tetris.Generation
             Reset();
 
             Current = new MoveCandidate(block);
-
-            while (Current.Offset > field.Filled + 2)
-            {
-                Current = Current.Down();
-            }
             tracker.Visit(Current.Id);
             queue.Enqueue(Current);
 
