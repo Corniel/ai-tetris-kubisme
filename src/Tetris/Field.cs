@@ -66,26 +66,45 @@ namespace Tetris
             return hasFloor ? Fit.True : Fit.Maybe;
         }
 
-        public Move Move(Block block, Path path)
+        public Move Move(Block block, Path path, bool @throw = true)
         {
-            var fit = Fit.Maybe;
+            Fit fit;
 
+            var steps = 0;
             foreach (var step in path)
             {
+                steps++;
                 // ignore further steps.
                 if (block is null) { break; }
 
                 fit = Fits(block);
 
-                if (fit == Fit.False) { return default; }
-                else if (fit == Fit.True) { return Move(block); }
-                else { block = block.Next(step); }
+                if (fit == Fit.False)
+                {
+                    return @throw ? throw InvalidPath.NoFit() : default; 
+                }
+                else if (fit == Fit.True && steps == path.Length)
+                {
+                    return Move(block); 
+                }
+                else 
+                {
+                    block = block.Next(step); 
+                }
             }
-            while (fit == Fit.Maybe)
+
+            if (path.Last != Step.Down && @throw)
+            {
+                throw InvalidPath.StepsMissing();
+            }
+
+            do
             {
                 fit = Fits(block);
                 block = block.Down;
             }
+            while (fit == Fit.Maybe);
+
             return Move(block);
         }
 
