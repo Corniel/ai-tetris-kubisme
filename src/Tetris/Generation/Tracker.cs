@@ -13,7 +13,7 @@ namespace Tetris.Generation
     {
         private const byte Visited = 1;
         private const byte Moved = 255;
-        private const int capacity = 600;
+        private const int capacity = 663;
 
         private readonly byte[] lookup = new byte[capacity];
 

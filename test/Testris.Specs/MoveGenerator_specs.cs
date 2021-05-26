@@ -38,6 +38,30 @@ namespace MoveGenerator_specs
         }
     }
 
+    public class T_Spin
+    {
+        [Test]
+        public void Found()
+        {
+            var field = Field.Parse(@"
+                ..........                
+                ..........
+                ..........
+                ...X..XX..
+                XXXX...XXX
+                XXXXX.XXXX");
+
+            var spin = Path.Create(Step.Down, Step.TurnLeft, Step.Down, Step.Down, Step.Down, Step.TurnLeft);
+
+            var paths = MoveGenerator.New(field, Blocks.Init(Rows.All(), 6, null).Spawn(Shape.T))
+                .Select(m => m.Path)
+                .ToArray();
+
+            Assert.That(paths.Length, Is.EqualTo(34 + 3));
+            Assert.Contains(spin, paths);
+        }
+    }
+
     public class Random_Access
     {
         /// <remarks>

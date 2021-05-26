@@ -4,19 +4,19 @@ namespace Tetris
 {
     public partial class Blocks
     {
-        public static Blocks Init() => Init(Rows.All(), null);
+        public static Blocks Init() => Init(Rows.All(), 20, null);
 
-        public static Blocks Init(Rows rows, RotationSystem rotationSystem)
+        public static Blocks Init(Rows rows, int height, RotationSystem rotationSystem)
         {
             var spawns = new[]
             {
-                rows.Block(Shape.I, default, 4, 18),
-                rows.Block(Shape.J, default, 4, 17),
-                rows.Block(Shape.L, default, 4, 17),
-                rows.Block(Shape.O, default, 5, 17),
-                rows.Block(Shape.S, default, 4, 17),
-                rows.Block(Shape.T, default, 4, 17),
-                rows.Block(Shape.Z, default, 4, 17),
+                rows.Block(Shape.I, default, 4, height - 1),
+                rows.Block(Shape.J, default, 4, height - 1),
+                rows.Block(Shape.L, default, 4, height - 1),
+                rows.Block(Shape.O, default, 5, height - 1),
+                rows.Block(Shape.S, default, 4, height - 1),
+                rows.Block(Shape.T, default, 4, height - 1),
+                rows.Block(Shape.Z, default, 4, height - 1),
             };
 
             var blocks = new Blocks(spawns, rows, rotationSystem ?? RotationSystem.Srs(rows));

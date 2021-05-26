@@ -55,16 +55,17 @@ namespace Block_specs
         public void Within_50ms()
         {
             var rows = Rows.All();
-            Speed.Runs(() => Blocks.Init(rows, null), TimeSpan.FromMilliseconds(50));
+            Speed.Runs(() => Blocks.Init(rows, 20, null), TimeSpan.FromMilliseconds(50));
         }
 
         [Test]
-        public void Results_in_3736_blocks()
+        public void Results_in_4128_blocks()
         {
             var blocks = Blocks.Init();
             var all = blocks.ToArray();
 
-            Assert.AreEqual(3736, all.Length);
+            Assert.That(all.Length, Is.EqualTo(4128));
+            Assert.That(all.Max(block => block.Id), Is.EqualTo(662));
 
             var rotations = all.Where(b => b.TurnRight != null && b.TurnLeft != null).ToArray();
 

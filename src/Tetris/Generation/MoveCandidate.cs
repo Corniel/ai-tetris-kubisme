@@ -11,7 +11,7 @@ namespace Tetris.Generation
         public MoveCandidate(Block block) 
             : this(block, Path.None) => Do.Nothing();
 
-        public MoveCandidate(Block block, Step step)
+        internal MoveCandidate(Block block, Step step)
             : this(block, Path.None.Add(step)) => Do.Nothing();
 
         private MoveCandidate(Block block, Path path)

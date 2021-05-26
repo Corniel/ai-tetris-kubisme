@@ -9,11 +9,10 @@ namespace Tetris.Generation
     public partial class MoveGenerator : IEnumerator<MoveCandidate>, IEnumerable<MoveCandidate>
     {
         private Field field;
-
         private readonly Tracker tracker = new Tracker();
         private readonly FixedQueue<MoveCandidate> queue = new FixedQueue<MoveCandidate>(600);
 
-        private MoveGenerator(Field field) => this.field = field;
+        private MoveGenerator() => Do.Nothing();
 
         public MoveCandidate Current { get; private set; }
 
@@ -48,7 +47,7 @@ namespace Tetris.Generation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void Enqueue()
         {
-            if (Current.Offset <= field.Filled + 2)
+            if (Current.Offset < field.Filled + 2)
             {
                 foreach (var next in Current.Nexts)
                 {

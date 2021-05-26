@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace Tetris
@@ -40,11 +41,7 @@ namespace Tetris
         /// </returns>
         public Fit Fits(Block block)
         {
-            // Not enough space.
-            if (block.Height > Height) return Fit.False;
-
-            // Nothing to match yet
-            if (block.Offset > Filled) return Fit.Maybe;
+            if (OffField(block) || AboveFilled(block)) return Fit.Maybe;
 
             var hasFloor = block.HasFloor;
 
@@ -65,6 +62,9 @@ namespace Tetris
             }
             return hasFloor ? Fit.True : Fit.Maybe;
         }
+
+        private bool OffField(Block block) => block.Height > Height;
+        private bool AboveFilled(Block block) => block.Offset > Filled;
 
         public Move Move(Block block, Path path, bool @throw = true)
         {
@@ -202,5 +202,10 @@ namespace Tetris
             var rs = Rows.Trim(rows);
             return new Field(rs, (byte)h, (byte)rs.Length);
         }
+
+        public static Field Parse(string str, string pattern = ".X")
+            => New(str.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(line => Convert.ToUInt16(line.Replace(pattern[0], '0').Replace(pattern[1], '1'), 2))
+            .ToArray());
     }
 }

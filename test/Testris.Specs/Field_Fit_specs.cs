@@ -133,6 +133,47 @@ namespace Field_Fit_specs
     public class Maybe_When
     {
         [Test]
+        public void Height_block_higher_height_field()
+        {
+            Block block = Data.Block(
+                Shape.L,
+                Rotation.None,
+                0,
+                19,
+                0b_00100_00000,
+                0b_11100_00000);
+
+
+            var field = Field.New(
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00000_00000,
+                0b_00110_00000,
+                0b_11101_00000);
+
+            var fit = field.Fits(block);
+            Assert.AreEqual(Fit.False, fit);
+        }
+
+        [Test]
         public void Offset_Bigger_then_Filled()
         {
             Block block = Data.Block(
@@ -217,47 +258,6 @@ namespace Field_Fit_specs
 
     public class No_Fit_When
     {
-        [Test]
-        public void Height_block_higher_height_field()
-        {
-            Block block = Data.Block(
-                Shape.L,
-                Rotation.None,
-                0,
-                19,
-                0b_00100_00000,
-                0b_11100_00000);
-
-
-            var field = Field.New(
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00000_00000,
-                0b_00110_00000,
-                0b_11101_00000);
-
-            var fit = field.Fits(block);
-            Assert.AreEqual(Fit.False, fit);
-        }
-
         [Test]
         public void Height_block_overlaps_row()
         {
