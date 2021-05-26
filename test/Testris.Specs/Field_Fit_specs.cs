@@ -170,7 +170,7 @@ namespace Field_Fit_specs
                 0b_11101_00000);
 
             var fit = field.Fits(block);
-            Assert.AreEqual(Fit.False, fit);
+            Assert.AreEqual(Fit.Maybe, fit);
         }
 
         [Test]

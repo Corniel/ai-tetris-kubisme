@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using Tetris.Gameplay;
 using Tetris.MonteCarlo;
 
@@ -11,11 +12,13 @@ namespace MonteCarlo_specs
         {
             var game = Classic.Start();
             var bot = new MonteCarloBot();
-            
-            while (true)
+
+            var turns = 0;
+            while (game.Field.Filled < 18)
             {
                 var move = bot.Play(game);
                 game = game.Move(move);
+                Console.WriteLine($"{++turns}: {game.Field.Filled}");
             }
         }
     }

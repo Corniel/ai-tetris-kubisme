@@ -66,46 +66,20 @@ namespace Tetris
         private bool OffField(Block block) => block.Height > Height;
         private bool AboveFilled(Block block) => block.Offset > Filled;
 
-        public Move Move(Block block, Path path, bool @throw = true)
+        public Move Move(Block block, Path path)
         {
-            Fit fit;
-
-            var steps = 0;
             foreach (var step in path)
             {
-                steps++;
-                // ignore further steps.
-                if (block is null) { break; }
-
-                fit = Fits(block);
-
-                if (fit == Fit.False)
-                {
-                    return @throw ? throw InvalidPath.NoFit() : default; 
-                }
-                else if (fit == Fit.True && steps == path.Length)
-                {
-                    return Move(block); 
-                }
-                else 
-                {
-                    block = block.Next(step); 
-                }
+                if (Fits(block) == Fit.False) throw InvalidPath.NoFit();
+                else block = block.Next(step); 
             }
 
-            if (path.Last != Step.Down && @throw)
+            return Fits(block) switch
             {
-                throw InvalidPath.StepsMissing();
-            }
-
-            do
-            {
-                fit = Fits(block);
-                block = block.Down;
-            }
-            while (fit == Fit.Maybe);
-
-            return Move(block);
+                Fit.True => Move(block),
+                Fit.Maybe => throw InvalidPath.StepsMissing(),
+                _ => throw InvalidPath.NoFit(),
+            };
         }
 
         /// <summary>Applies the move described by a <see cref="Mask"/>.</summary>

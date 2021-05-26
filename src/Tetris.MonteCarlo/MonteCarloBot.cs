@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Tetris.Gameplay;
 using Tetris.Generation;
@@ -27,8 +28,7 @@ namespace Tetris.MonteCarlo
                 }
             }
             variations.Sort();
-
-            return variations[0].Path;
+            return variations[0]?.Path ?? default;
         }
     }
 

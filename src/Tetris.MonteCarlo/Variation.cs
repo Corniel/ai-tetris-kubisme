@@ -32,22 +32,24 @@ namespace Tetris.MonteCarlo
 
         public int Simulate(Field field, Shape shape, int score)
         {
-            var candidates = MoveGenerator.New(field, Blocks.Spawn(shape)).ToArray();
+            var generator = MoveGenerator.New(field, Blocks.Spawn(shape));
+            var candidates = generator.ToList();
 
-            if (candidates.Length == 0)
+            while (candidates.Any())
             {
-                return score;
-            }
-            else
-            {
-                var candidate = candidates[Rnd.Next(candidates.Length)];
+                var candidate = candidates[Rnd.Next(candidates.Count)];
                 var move = field.Move(candidate.Block);
 
-                return Simulate(
-                    field: move.Field,
-                    shape: Shape.Next(),
-                    score: score + Score.Classic(1, candidate.Path, move.Clearing));
+                field = move.Field;
+                shape = Shape.Next();
+                score += Score.Classic(1, candidate.Path, move.Clearing);
+
+                candidates.Clear();
+                generator.Release();
+                generator = MoveGenerator.New(field, Blocks.Spawn(shape));
+                candidates.AddRange(generator);
             }
+            return score;
         }
 
         public override string ToString() => Invariant($"E: {E}");

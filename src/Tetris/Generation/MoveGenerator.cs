@@ -47,7 +47,7 @@ namespace Tetris.Generation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void Enqueue()
         {
-            if (Current.Offset < field.Filled + 2)
+            if (Current.Offset < field.Filled + 3)
             {
                 foreach (var next in Current.Nexts)
                 {

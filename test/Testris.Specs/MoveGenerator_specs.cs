@@ -51,7 +51,7 @@ namespace MoveGenerator_specs
                 XXXX...XXX
                 XXXXX.XXXX");
 
-            var spin = Path.Create(Step.Down, Step.TurnLeft, Step.Down, Step.Down, Step.Down, Step.TurnLeft);
+            var spin = Path.Create(Step.TurnLeft, Step.Down, Step.Down, Step.Down, Step.Down, Step.TurnLeft);
 
             var paths = MoveGenerator.New(field, Blocks.Init(Rows.All(), 6, null).Spawn(Shape.T))
                 .Select(m => m.Path)
