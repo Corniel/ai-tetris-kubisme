@@ -44,11 +44,14 @@ namespace Tetris
         /// - <see cref="TurnLeft"/>
         /// - <see cref="TurnRight"/>
         /// </remarks>
-        public IReadOnlyCollection<MoveCandidate> Nexts { get; private set; }
+        public IEnumerable<MoveCandidate> Nexts(int filled)
+            => filled >= EnqueueLimit
+            ? EnqueueCandidates
+            : Array.Empty<MoveCandidate>();
 
         internal void InitNexts()
         {
-            Nexts = new[] 
+            EnqueueCandidates = new[] 
             {
                new MoveCandidate(Left, Step.Left),
                new MoveCandidate(Right, Step.Right),
@@ -57,6 +60,10 @@ namespace Tetris
             }
             .Where(c => c.Block is Block)
             .ToArray();
+
+            EnqueueLimit = EnqueueCandidates.Min(next => next.Block.Offset);
         }
+        private MoveCandidate[] EnqueueCandidates;
+        private int EnqueueLimit;
     }
 }

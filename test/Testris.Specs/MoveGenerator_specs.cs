@@ -51,11 +51,16 @@ namespace MoveGenerator_specs
                 XXXX...XXX
                 XXXXX.XXXX");
 
-            var spin = Path.Create(Step.TurnLeft, Step.Down, Step.Down, Step.Down, Step.Down, Step.TurnLeft);
+            var spin = Path.Create(Step.Down, Step.TurnLeft, Step.Down, Step.Down, Step.Down, Step.TurnLeft);
 
             var paths = MoveGenerator.New(field, Blocks.Init(Rows.All(), 6, null).Spawn(Shape.T))
                 .Select(m => m.Path)
                 .ToArray();
+
+            foreach(var path in paths)
+            {
+                Console.WriteLine(path);
+            }
 
             Assert.That(paths.Length, Is.EqualTo(34 + 3));
             Assert.Contains(spin, paths);
@@ -65,7 +70,7 @@ namespace MoveGenerator_specs
     public class Random_Access
     {
         /// <remarks>
-        /// ca. 1.3M paths/second
+        /// ca. 1.0M paths/second
         /// </remarks>
         [Test]
         public void Generates_MoveCandidates()
@@ -73,8 +78,6 @@ namespace MoveGenerator_specs
             var count = 10_000;
             var blocks = Blocks.Init();
             var fields = Data.Fields(count);
-
-            var moves = new List<MoveCandidate>(500);
 
             var duration = TimeSpan.Zero;
             var total = 0;
@@ -89,10 +92,8 @@ namespace MoveGenerator_specs
                 {
                     foreach (var field in fields)
                     {
-                        moves.Clear();
                         var generator = MoveGenerator.New(field, blocks.Spawn(shape));
-                        moves.AddRange(generator);
-                        total += moves.Count;
+                        total += generator.Count();
                         generator.Release();
                     }
                 });

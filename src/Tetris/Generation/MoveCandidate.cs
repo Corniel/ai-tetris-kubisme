@@ -26,10 +26,9 @@ namespace Tetris.Generation
         public MoveCandidate Next(MoveCandidate candidate)
             => new MoveCandidate(candidate.Block, Path.Add(candidate.Path.First));
 
-        internal int Offset => Block.Offset;
         internal short Id => Block.Id; 
         internal short Primary => Block.Primary;
 
-        internal IEnumerable<MoveCandidate> Nexts => Block.Nexts;
+        internal IEnumerable<MoveCandidate> Nexts(int filled) => Block.Nexts(filled);
     }
 }

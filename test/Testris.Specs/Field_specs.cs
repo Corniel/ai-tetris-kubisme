@@ -10,7 +10,7 @@ namespace Field_specs
     public class Random_Access
     {
         /// <remarks>
-        /// ca. 8.0M Moves/second
+        /// ca. 11.5M Moves/second
         /// </remarks>
         [Test]
         public void Move_block()
