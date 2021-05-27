@@ -36,6 +36,9 @@ namespace Tetris
         /// <summary>Gets the column (offset).</summary>
         internal int Column { get; }
 
+        /// <summary>True if we deal with a T-spin.</summary>
+        public virtual bool TSpin(Row[] rows) => false;
+
         /// <inheritdoc />
         public override string ToString()
         => $"Shape: {Shape}{(Rotation == default ? "" : $" ({Rotation})")}, " +

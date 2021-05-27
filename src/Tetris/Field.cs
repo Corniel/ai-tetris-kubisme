@@ -114,7 +114,7 @@ namespace Tetris
             var clearing = new Clearing(
                 cleared: source - target,
                 perfect: moved[0].IsEmpty(),
-                t_spin: false); // TODO
+                t_spin: block.TSpin(rows));
 
             var field = new Field(
                 rows: moved,
