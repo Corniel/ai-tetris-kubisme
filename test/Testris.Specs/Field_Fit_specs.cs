@@ -17,7 +17,6 @@ namespace Field_Fit_specs
                 0b_01100_00000,
                 0b_00110_00000);
 
-
             var field = Field.New(
                 0b_00000_00000,
                 0b_00000_00000,
